@@ -19,22 +19,13 @@ exports.handler = async argv => {
     console.log(chalk.green("Pulling ubuntu focal image..."));
     child.exec(`bakerx pull focal cloud-images.ubuntu.com`);
 
+    
+    child.exec(`bakerx run pipeline-vm focal`);
 
-    let cmd = `bakerx run pipeline-vm focal`
-    let subprocess = child.exec(cmd);
+    let ssh_command_subprocess = child.exec(`bakerx ssh-info pipeline-vm`);
 
-
-    subprocess.stdout.on('data', stdout => {
-        console.log( chalk.gray(stdout.toString() ));
+    ssh_command_subprocess.stdout.on('data', stdout => {
+        ssh_command = stdout.toString();
+        console.log( chalk.gray(ssh_command));
     });
-    subprocess.stderr.on('data', stderr => {
-        console.log( chalk.gray(stderr.toString() ));
-    });
-
-    // Subscribe to error starting process or process exiting events.
-    subprocess.on('error', err => {
-        console.log( chalk.red( err.message ) );
-        reject(err);
-    });
-
 };
