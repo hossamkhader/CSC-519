@@ -20,11 +20,11 @@ exports.handler = async argv => {
     child.exec(`bakerx pull focal cloud-images.ubuntu.com`);
 
     
-    let subprocess = child.exec(`bakerx run pipeline-vm focal`);
+    child.exec(`bakerx run pipeline-vm focal`);
 
-    let x = child.exec(`bakerx ssh-info pipeline-vm`);
+    let ssh_command_subprocess = child.exec(`bakerx ssh-info pipeline-vm`);
 
-    x.stdout.on('data', stdout => {
+    ssh_command_subprocess.stdout.on('data', stdout => {
         ssh_command = stdout.toString();
         console.log( chalk.gray(ssh_command));
     });
