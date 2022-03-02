@@ -14,7 +14,6 @@ exports.builder = yargs => {
 
 exports.handler = async argv => {
 
-    console.log(argv);
     const { processor } = argv;
 
     console.log(chalk.green("Preparing computing environment..."));
