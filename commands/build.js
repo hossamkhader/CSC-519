@@ -1,8 +1,10 @@
-const child = require('child_process');
+const exec = require('child_process').exec;
+const util = require('util');
 const path = require('path');
 const chalk = require('chalk');
 
 const buildSpec = require('../lib/buildSpec');
+let ssh_command;
 
 exports.command = 'build';
 exports.desc = 'Build';
@@ -11,18 +13,46 @@ exports.builder = yargs => {
     });
 };
 
+async function get_ssh_command() {
+    return new Promise(function (resolve, reject) {
+        let subprocess = exec(`bakerx ssh-info pipeline-vm`);
+        subprocess.stdout.on('data', stdout => {
+            ssh_command = stdout.toString();
+        });
+        subprocess.on('exit', code => {
+            resolve(ssh_command.trim());
+        });
+    });
+}
+
+async function _exec(command) {
+    return new Promise(function (resolve, reject) {
+        let subprocess = exec(`${ssh_command} ${command}`);
+        subprocess.stdout.on('data', stdout => {
+            console.log( chalk.gray(stdout.toString() ));
+        });
+        subprocess.stderr.on('data', stderr => {
+            console.log( chalk.gray(stderr.toString() ));
+        });
+        // Subscribe to error starting process or process exiting events.
+        subprocess.on('error', err => {
+            console.log( chalk.red( err.message ) );
+            reject(err);
+        });
+        subprocess.on('exit', code => {
+            resolve(code);
+        });
+    });
+}
+
 
 exports.handler = async argv => {
-    const { processor } = argv;
-
     console.log(chalk.green("Building..."));
+    ssh_command = await get_ssh_command();
 
-    let ssh_command_subprocess = child.exec(`bakerx ssh-info pipeline-vm`);
-
-    ssh_command_subprocess.stdout.on('data', stdout => {
-        ssh_command = stdout.toString();
-        for (command of buildSpec) {
-            subprocess = child.exec(ssh_command + ' ' + command);
-        }
-    });
+    for (command of buildSpec) {
+        console.log(command);
+        await _exec(command);
+    }
+        
 };
