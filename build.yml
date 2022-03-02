@@ -31,13 +31,12 @@ jobs:
         run: cp iTrust2/iTrust2/src/main/resources/application.yml.template iTrust2/iTrust2/src/main/resources/application.yml
 
       - name: update mysql username in application.yml
-        run: sed -i 's/username.*/username:admin/g' iTrust2/iTrust2/src/main/resources/application.yml
+        run: |
+          sed -i 's/username.*/username: admin/g' iTrust2/iTrust2/src/main/resources/application.yml
 
       - name: update mysql password in application.yml
-        run: sed -i 's/password.*/password:admin/g' iTrust2/iTrust2/src/main/resources/application.yml
-
-      - name: add space for username and password application.yml
-        run: sed -i 's/admin/ admin/g' iTrust2/iTrust2/src/main/resources/application.yml
+        run: |
+          sed -i 's/password.*/password: admin/g' iTrust2/iTrust2/src/main/resources/application.yml
 
       - name: build iTrust2
         run: mvn -f iTrust2/iTrust2/pom.xml --batch-mode --update-snapshots clean test
