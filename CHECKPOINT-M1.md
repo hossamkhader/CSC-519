@@ -11,10 +11,10 @@
 
 ## Remaining Work:
 * Create a build job specification
-** Secrets are currently hardcoded in build.yml. Will need to use .env -> Assigned to Jesse
+Secrets are currently hardcoded in build.yml. Will need to use .env -> Assigned to Nolan
 * Automatically configure a build environment for given build job specification
-** Our build environment has to be made clean so it can run multiple times without problems -> Assigned to Jesse
-* Checks for OS platform specific tasks
+Our build environment has to be made clean so it can run multiple times without problems -> Assigned to Jesse
+Checks for OS platform specific tasks -> Assigned to Jesse
 * Create M1 branch to hold snapshot
 * Sample .env file
 * Update README
