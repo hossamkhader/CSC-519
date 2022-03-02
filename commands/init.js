@@ -2,6 +2,8 @@ const chalk = require('chalk');
 const path = require('path');
 const child = require('child_process');
 
+const buildSpec = require('../lib/buildSpec');
+
 exports.command = 'init';
 exports.desc = 'Prepare tool';
 exports.builder = yargs => {
@@ -11,6 +13,8 @@ exports.builder = yargs => {
 
 
 exports.handler = async argv => {
+
+    console.log(argv);
     const { processor } = argv;
 
     console.log(chalk.green("Preparing computing environment..."));
@@ -19,7 +23,7 @@ exports.handler = async argv => {
     console.log(chalk.green("Pulling ubuntu focal image..."));
     child.exec(`bakerx pull focal cloud-images.ubuntu.com`);
 
-    
+    console.log(chalk.green("Creating VM pipeline-vm..."));
     child.exec(`bakerx run pipeline-vm focal`);
 
     let ssh_command_subprocess = child.exec(`bakerx ssh-info pipeline-vm`);
