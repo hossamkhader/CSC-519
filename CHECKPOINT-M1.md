@@ -2,6 +2,7 @@
 
 ## Completed Work:
 * Automatically provision and configure a build server(90% done, remaining work discussed below) - Hossam
+  * ![Task1 - init](https://github.ncsu.edu/CSC-DevOps-S22/DEVOPS-37/blob/main/images/Task1_init.png) 
 * Create a build job specification(80% done, remaining work discussed below) - Hossam and Jesse
 * Automatically configure a build environment for build job specification(80% done, remaining work discussed below) - Hossam and Nolan
 
