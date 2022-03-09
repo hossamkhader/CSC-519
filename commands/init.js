@@ -26,8 +26,21 @@ exports.handler = async (argv) => {
     console.log(chalk.green("bakerx is installed."));
   });
 
-  console.log(chalk.green("Pulling ubuntu focal image..."));
-  child.exec(`bakerx pull focal cloud-images.ubuntu.com`);
+  console.log(chalk.green("--- Pulling ubuntu focal image ---"));
+  child.exec(
+    `bakerx pull focal cloud-images.ubuntu.com`,
+    (err, stdout, stderr) => {
+      if (err) {
+        console.error(err);
+        console.log(chalk.red("FAILED: focal image pull failed."));
+        return;
+      }
+      console.log(stdout);
+      console.log(chalk.green("focal image pull returned with no errors."));
+    }
+  );
+
+  //TODO: Ensure console output arrives in order i.e. read up on execSync
 
   console.log(chalk.green("Creating VM pipeline-vm..."));
   child.execSync(`bakerx run pipeline-vm focal --memory 2048`);
@@ -39,4 +52,3 @@ exports.handler = async (argv) => {
     console.log(chalk.gray(ssh_command));
   });
 };
-
