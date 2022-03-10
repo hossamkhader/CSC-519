@@ -2,10 +2,10 @@ const chalk = require('chalk');
 const path = require('path');
 const child = require('child_process');
 
-const buildSpec = require('../lib/buildSpec');
+//const buildSpec = require('../lib/buildSpec');
 
 exports.command = 'init';
-exports.desc = 'Prepare tool';
+exports.desc = 'Automatically provision and configure a build server';
 exports.builder = yargs => {
     yargs.options({
     });
