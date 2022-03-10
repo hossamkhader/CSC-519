@@ -6,12 +6,15 @@ const chalk = require('chalk');
 const buildSpec = require('../lib/buildSpec');
 let ssh_command;
 
-exports.command = 'build';
-exports.desc = 'Build';
+exports.command = 'build <command> <command>';
+exports.desc = 'Automatically configure a build environment for given build job specification';
 exports.builder = yargs => {
-    yargs.options({
-    });
+    yargs.commands('<build_job_name> <spec_file.yml>').version(false);
 };
+
+const build_name = process.argv[3];
+const spec_file = process.argv[4];
+console.log( chalk.gray( "Build name: " + build_name + "\nSpec file: " + spec_file) );
 
 async function get_ssh_command() {
     return new Promise(function (resolve, reject) {
