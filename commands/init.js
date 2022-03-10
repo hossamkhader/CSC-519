@@ -11,7 +11,6 @@ exports.builder = yargs => {
     });
 };
 
-
 exports.handler = async argv => {
 
     const { processor } = argv;
