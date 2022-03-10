@@ -23,9 +23,9 @@ exports.handler = async argv => {
     try {
         child.execSync(`bakerx delete vm pipeline-vm`);
         console.log(chalk.green("Delete successful"));
-      } catch (error) {
+    } catch (error) {
         console.log(chalk.green("There are no VMs to delete."));
-      }
+    }
 
     console.log(chalk.green("Pulling ubuntu focal image..."));
     child.exec(`bakerx pull focal cloud-images.ubuntu.com`);

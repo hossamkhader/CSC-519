@@ -16,7 +16,7 @@ jobs:
         run: sudo apt install -y openjdk-11-jre-headless maven mysql-server git
 
       - name: git clone
-        run: git clone https://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@github.ncsu.edu/engr-csc326-staff/iTrust2-v10 iTrust2
+        run: git clone https://${GITHUB_ACCESS_TOKEN}@github.ncsu.edu/engr-csc326-staff/iTrust2-v10 iTrust2
 
       - name: start mysql
         run: sudo systemctl enable --now mysql
