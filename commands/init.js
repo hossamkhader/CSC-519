@@ -55,7 +55,16 @@ exports.handler = async (argv) => {
     console.log(chalk.green("$OSTYPE:", stdout));
   });
 
-  //TODO: Ensure console output arrives in order i.e. read up on execSync
+  console.log(chalk.green("Deleting leftover VM"));
+  try {
+      child.execSync(`bakerx delete vm pipeline-vm`);
+      console.log(chalk.green("Delete successful"));
+  } catch (error) {
+      console.log(chalk.green("There are no VMs to delete."));
+  }
+
+  console.log(chalk.green("Pulling ubuntu focal image..."));
+  child.exec(`bakerx pull focal cloud-images.ubuntu.com`);
 
   console.log(chalk.green("Creating VM pipeline-vm..."));
   child.execSync(`bakerx run pipeline-vm focal --memory 2048`);
