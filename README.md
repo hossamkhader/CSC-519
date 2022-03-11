@@ -23,7 +23,7 @@ GITHUB_ACCESS_TOKEN=***************
  * After Checkpoint
    * Having test result standard output print to terminal. There is too much output that it seems to overflow the stdout buffer
      * ![Task3 - stdout Overflow](https://github.ncsu.edu/CSC-DevOps-S22/DEVOPS-37/blob/main/images/Task3_stdout_overflow.png)
-   * Passing in commands with special characters (quotations, dashes) to VM using bakerx. We had to do very tedious things to escape these characgters
+   * Passing in commands with special characters (quotations, dashes) to VM using bakerx. We had to do very tedious things to escape these characters
      * ![Task2 - Escaping Quotations](https://github.ncsu.edu/CSC-DevOps-S22/DEVOPS-37/blob/main/images/Task2_Escape_Characters.png)
    * Specifying right amount of memory for server to be able to build iTrust job
    * Sync issues due to taking in command line arguments. We had to make certain functions asynchronous(parsing the spec file) so that they only ran after the we have read in the user's command line arguments
