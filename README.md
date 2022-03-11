@@ -28,6 +28,7 @@ GITHUB_ACCESS_TOKEN=***************
      * ![Task2 - Escaping Quotations](https://github.ncsu.edu/CSC-DevOps-S22/DEVOPS-37/blob/main/images/Task2_Escape_Characters.png)
    * Specifying right amount of memory for server to be able to build iTrust job
    * Sync issues due to taking in command line arguments. We had to make certain functions asynchronous(parsing the spec file) so that they only ran after the we have read in the user's command line arguments
+   * There were a few issues accross different platforms. For example env variables were accessed differently in Windows vs MAC/Linux.
 
 ### What We Learned
  * How to automatically provision and configure a build server using Javascript
@@ -35,6 +36,7 @@ GITHUB_ACCESS_TOKEN=***************
  * How to automatically configure a build environment for given build job specification.
  * VMs have to be built with enough memory capable of building jobs in the spec file
  * How to take in command line arguments in JS and use them throughout the program
+ * How different environments can raise new issues for our pipeline.
 
 ### What We Didn't Get To
  * Specifying the build version numbers for each build
