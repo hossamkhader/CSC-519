@@ -6,6 +6,11 @@ GITHUB_ACCESS_TOKEN=***************
 
 ## Steps to Run
 * If you are using a Windows environment, ensure that you are using git bash (or similar) for your console.
+* Clone the repo
+* cd into the new directory
+* change branch to M1
+* npm i
+* npm link
 * `pipeline init`  Automatically provisions and configures a build server
 * `pipeline build <build-job-name> <spec-file.yml>`    Automatically configures a build environment for the <build-job-name> job specification in the <spec-file.yml> spec file
   * To build iTrust, run `pipeline build build-itrust build.yml`
