@@ -27,7 +27,7 @@ async function get_ssh_command() {
     return new Promise(function (resolve, reject) {
         let subprocess = exec(`bakerx ssh-info pipeline-vm`);
         subprocess.stdout.on('data', stdout => {
-            ssh_command = stdout.toString();
+            ssh_command = stdout.toString().trim() + " -o UserKnownHostsFile=/dev/null";
         });
         subprocess.on('exit', code => {
             resolve(ssh_command.trim());
