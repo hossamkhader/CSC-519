@@ -44,15 +44,14 @@ exports.handler = async (argv) => {
   );
 
   // OS check
-  child.exec(`echo $OSTYPE`, (err, stdout, stderr) => {
+  child.exec(`uname`, (err, stdout, stderr) => {
     console.log(chalk.green("--- Check OS ---"));
     if (err) {
       console.error(err);
       console.log(chalk.red("FAILED: OS check"));
       return;
     }
-    console.log(stdout);
-    console.log(chalk.green("$OSTYPE:", stdout.toString()));
+    console.log(chalk.green("OS:", stdout.toString()));
   });
 
   console.log(chalk.green("Deleting leftover VM"));
