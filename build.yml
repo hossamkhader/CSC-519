@@ -15,7 +15,10 @@ jobs:
       - name: apt install
         run: sudo apt install -y openjdk-11-jre-headless maven mysql-server git
 
-      - name: git clone
+      - name: git clone Windows
+        run: git clone https://%GITHUB_ACCESS_TOKEN%@github.ncsu.edu/engr-csc326-staff/iTrust2-v10 iTrust2
+
+      - name: git clone Mac
         run: git clone https://${GITHUB_ACCESS_TOKEN}@github.ncsu.edu/engr-csc326-staff/iTrust2-v10 iTrust2
 
       - name: start mysql
