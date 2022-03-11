@@ -42,6 +42,7 @@ GITHUB_ACCESS_TOKEN=***************
  * VMs have to be built with enough memory capable of building jobs in the spec file
  * How to take in command line arguments in JS and use them throughout the program
  * How different environments can raise new issues for our pipeline.
+ * We have to specify a max buffer for the standard output of commands running in the VM so that all the output gets piped to our terminal
 
 ### What We Didn't Get To
  * Specifying the build version numbers for each build
