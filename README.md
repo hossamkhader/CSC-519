@@ -50,4 +50,4 @@ GITHUB_ACCESS_TOKEN=***************
  * Storing build specs that are built dynamically inside a folder along with its build version number
  
 ## Screencast
- 
+ The screencast can be found [here](https://github.ncsu.edu/CSC-DevOps-S22/DEVOPS-37/tree/main/Screencasts).
