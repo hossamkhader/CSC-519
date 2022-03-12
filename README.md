@@ -9,6 +9,7 @@ GITHUB_ACCESS_TOKEN=***************
 * Clone the repo
 * cd into the new directory
 * change branch to M1
+* Create a `.env` file and in it set `GITHUB_ACCESS_TOKEN=**************`
 * `npm i`
 * `npm link`
 * `pipeline init`  Automatically provisions and configures a build server
