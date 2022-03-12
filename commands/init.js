@@ -17,8 +17,8 @@ exports.handler = async (argv) => {
   console.log(chalk.green("Preparing computing environment..."));
 
   // bakerx check
-  console.log(chalk.green("--- Check bakerx is installed ---"));
   child.exec("bakerx --version", (err, stdout, stderr) => {
+    console.log(chalk.green("--- Check bakerx is installed ---"));
     if (err) {
       console.error(err);
       console.log(chalk.red("FAILED: bakerx is NOT installed."));
@@ -29,10 +29,10 @@ exports.handler = async (argv) => {
   });
 
   // image pull check
-  console.log(chalk.green("--- Pulling ubuntu focal image ---"));
   child.exec(
     `bakerx pull focal cloud-images.ubuntu.com`,
     (err, stdout, stderr) => {
+      console.log(chalk.green("--- Pulling ubuntu focal image ---"));
       if (err) {
         console.error(err);
         console.log(chalk.red("FAILED: focal image pull failed."));
@@ -44,15 +44,14 @@ exports.handler = async (argv) => {
   );
 
   // OS check
-  console.log(chalk.green("--- Check OS ---"));
-  child.exec(`echo \$OSTYPE`, (err, stdout, stderr) => {
+  child.exec(`uname`, (err, stdout, stderr) => {
+    console.log(chalk.green("--- Check OS ---"));
     if (err) {
       console.error(err);
       console.log(chalk.red("FAILED: OS check"));
       return;
     }
-    console.log(stdout);
-    console.log(chalk.green("$OSTYPE:", stdout));
+    console.log(chalk.green("OS:", stdout.toString()));
   });
 
   console.log(chalk.green("Deleting leftover VM"));
