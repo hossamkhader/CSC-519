@@ -78,8 +78,8 @@ jobs:
       - name: npm install checkbox.io-micro-preview
         run: cd checkbox.io-micro-preview && npm install
       
-      - name: npm install cscreenshot
-        run: cd screenshot && npm install
+      - name: npm install screenshot
+        run: cd screenshot && npm install && sudo npm link
 
       - name: node index.js
         run: cd checkbox.io-micro-preview && node index.js
