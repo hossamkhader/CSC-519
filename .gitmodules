@@ -1,0 +1,3 @@
+[submodule "screenshot"]
+	path = screenshot
+	url = https://github.com/ruttabega/screenshot.git
