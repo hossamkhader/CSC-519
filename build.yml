@@ -60,3 +60,20 @@ jobs:
 
       - name: build iTrust2
         run: mvn -f iTrust2/iTrust2/pom.xml --batch-mode --update-snapshots clean test
+
+  - name: mutation-coverage
+    steps:
+      - name: apt update
+        run: sudo apt update
+
+      - name: apt install
+        run: sudo apt install -y git npm
+
+      - name: git clone
+        run: git clone https://github.com/chrisparnin/checkbox.io-micro-preview.git
+
+      - name: npm install
+        run: cd checkbox.io-micro-preview && npm install
+
+      - name: node index.js
+        run: cd checkbox.io-micro-preview && node index.js
