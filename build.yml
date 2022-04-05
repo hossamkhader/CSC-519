@@ -69,8 +69,11 @@ jobs:
       - name: apt install
         run: sudo apt install -y git npm
 
-      - name: git clone
+      - name: git clone checkbox.io-micro-preview
         run: git clone https://github.com/chrisparnin/checkbox.io-micro-preview.git
+
+      - name: git clone screenshot 
+        run: git clone https://github.com/ruttabega/screenshot.git
 
       - name: npm install
         run: cd checkbox.io-micro-preview && npm install
