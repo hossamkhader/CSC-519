@@ -7,7 +7,7 @@ setup:
   - ...
 
 jobs:
-  - name: build-itrust
+  - name: itrust-build
     steps: 
       - name: apt update
         run: sudo apt update
