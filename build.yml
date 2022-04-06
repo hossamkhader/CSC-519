@@ -67,7 +67,7 @@ jobs:
         run: sudo apt update
 
       - name: apt install
-        run: sudo apt install -y git npm
+        run: sudo apt install -y git npm libatk-bridge2.0-0 libcups2 libxkbcommon-x11-0 libxdamage-dev libgbm-dev libpangocairo-1.0-0
 
       - name: git clone checkbox.io-micro-preview
         run: git clone https://github.com/chrisparnin/checkbox.io-micro-preview.git
@@ -85,4 +85,19 @@ jobs:
 
       - name: node index.js
         run: |
-          'cd checkbox.io-micro-preview && node index.js'
+          'cd checkbox.io-micro-preview && node index.js &'
+
+      - name: mkdir tmp
+        run: mkdir tmp
+
+      - name: screenshot long.md
+        run: screenshot http://localhost:3000/survey/long.md tmp/long
+
+      - name: screenshot upload.md
+        run: screenshot http://localhost:3000/survey/upload.md tmp/upload
+
+      - name: screenshot survey.md
+        run: screenshot http://localhost:3000/survey/survey.md tmp/survey
+
+      - name: screenshot variations.md
+        run: screenshot http://localhost:3000/survey/variations.md tmp/variations
