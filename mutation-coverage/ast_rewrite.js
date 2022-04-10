@@ -38,20 +38,20 @@ function NegateConditionals(ast) {
         if( node.type === "BinaryExpression" ) {
             if( current === mutateTarget ) {
                 if ( node.operator === ">" ) {
-                    node.operator = "<"
-                    change = `Replacing > with < on line ${node.loc.start.line}`
+                    node.operator = "<";
+                    change = `Replacing > with < on line ${node.loc.start.line}`;
                 }
                 else if ( node.operator === "<" ) {
-                    node.operator = ">"
-                    change = `Replacing < with > on line ${node.loc.start.line}`
+                    node.operator = ">";
+                    change = `Replacing < with > on line ${node.loc.start.line}`;
                 }
                 else if ( node.operator === "==" ) {
-                    node.operator = "!="
-                    change = `Replacing == with != on line ${node.loc.start.line}`
+                    node.operator = "!=";
+                    change = `Replacing == with != on line ${node.loc.start.line}`;
                 }
                 else if ( node.operator === "!=" ) {
-                    node.operator = "=="
-                    change = `Replacing != with == on line ${node.loc.start.line}`
+                    node.operator = "==";
+                    change = `Replacing != with == on line ${node.loc.start.line}`;
                 }
             }
             current++;
@@ -76,20 +76,20 @@ function ConditionalBoundary(ast) {
         if( node.type === "BinaryExpression" ) {
             if( current === mutateTarget ) {
                 if ( node.operator === ">" ) {
-                    node.operator = ">="
-                    change = `Replacing > with >= on line ${node.loc.start.line}`
+                    node.operator = ">=";
+                    change = `Replacing > with >= on line ${node.loc.start.line}`;
                 }
                 else if ( node.operator === "<" ) {
-                    node.operator = "<="
-                    change = `Replacing < with <= on line ${node.loc.start.line}`
+                    node.operator = "<=";
+                    change = `Replacing < with <= on line ${node.loc.start.line}`;
                 }
                 else if ( node.operator === ">=" ) {
-                    node.operator = ">"
-                    change = `Replacing >= with > on line ${node.loc.start.line}`
+                    node.operator = ">";
+                    change = `Replacing >= with > on line ${node.loc.start.line}`;
                 }
                 else if ( node.operator === "<=" ) {
-                    node.operator = "<"
-                    change = `Replacing <= with < on line ${node.loc.start.line}`
+                    node.operator = "<";
+                    change = `Replacing <= with < on line ${node.loc.start.line}`;
                 }
             }
             current++;
