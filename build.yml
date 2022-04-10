@@ -86,8 +86,21 @@ jobs:
 
       - name: npm install and link screenshot
         run: |
-          'cd screenshot && npm install && sudo npm link'
+          'cd screenshot && npm install'
 
       - name: npm install checkbox.io-micro-preview
         run: |
           'cd checkbox.io-micro-preview && npm install'
+
+      - name: git clone Windows
+        run: git clone https://%GITHUB_ACCESS_TOKEN%@github.ncsu.edu/CSC-DevOps-S22/DEVOPS-37.git /tmp/DEVOPS
+
+      - name: git clone Mac
+        run: git clone https://${GITHUB_ACCESS_TOKEN}@github.ncsu.edu/CSC-DevOps-S22/DEVOPS-37.git /tmp/DEVOPS
+      
+      - name: copy mutation-coverage code
+        run: cp -r /tmp/DEVOPS/mutation-coverage ~
+
+      - name: run mutation-coverage code
+        run: |
+          'cd mutation-coverage && npm install && node index.js'
