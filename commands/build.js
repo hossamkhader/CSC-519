@@ -37,7 +37,7 @@ async function get_ssh_command() {
 
 async function _exec(command) {
     return new Promise(function (resolve, reject) {
-        let subprocess = exec(`${ssh_command} ${command}`, {maxBuffer: 1024*5000});
+        let subprocess = exec(`${ssh_command} "$printf ${command}"`, {maxBuffer: 1024*5000});
         subprocess.stdout.on('data', stdout => {
             console.log( chalk.gray(stdout.toString() ));
         });
@@ -55,11 +55,6 @@ async function _exec(command) {
     });
 }
 
-async function run_mutation(url, iterations, snapshots) {
-    console.log("Running mutation-coverage");
-}
-
-
 exports.handler = async argv => {
     console.log(chalk.green("Building..."));
     ssh_command = await get_ssh_command();
@@ -70,7 +65,8 @@ exports.handler = async argv => {
         }
     }
     if ('mutation' in buildSpec) {
-        run_mutation(jobs_specs.url, jobs_specs.iterations, jobs_specs.snapshots);
+        snapshots = buildSpec.mutation.snapshots.join(' ');
+        await _exec(`cd mutation-coverage && node index.js ${buildSpec.mutation.url} ${buildSpec.mutation.iterations} ${snapshots}`);
     }
     
         

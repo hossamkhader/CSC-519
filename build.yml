@@ -28,20 +28,16 @@ jobs:
         run: sudo service mysql status
 
       - name: create mysql account
-        run: |
-          'sudo mysql -e "CREATE USER admin@localhost IDENTIFIED BY ' "'"'admin'"'"'"'
+        run: sudo mysql -e "CREATE USER admin@localhost IDENTIFIED BY ' "'"'admin'"'"'"
 
       - name: check users in database
-        run: |
-          'sudo mysql -e "use mysql; select user,host from user"'
+        run: sudo mysql -e "use mysql; select user,host from user"
 
       - name: grant access to mysql account
-        run: |
-          'sudo mysql -e "GRANT ALL PRIVILEGES ON *.* TO admin@localhost"'
+        run: sudo mysql -e "GRANT ALL PRIVILEGES ON *.* TO admin@localhost"
 
       - name: Flush mysql databases
-        run: |
-          'sudo mysql -e "FLUSH PRIVILEGES"'
+        run: sudo mysql -e "FLUSH PRIVILEGES"
 
       - name: create application.yml
         run: cp iTrust2/iTrust2/src/main/resources/application.yml.template iTrust2/iTrust2/src/main/resources/application.yml
@@ -75,24 +71,18 @@ jobs:
       - name: apt install
         run: sudo apt install -y git npm libatk-bridge2.0-0 libcups2 libxkbcommon-x11-0 libxdamage-dev libgbm-dev libpangocairo-1.0-0 net-tools
 
-      - name: git clone checkbox.io-micro-preview
-        run: git clone https://github.com/chrisparnin/checkbox.io-micro-preview.git
-
       - name: git clone screenshot 
         run: git clone https://github.com/ruttabega/screenshot.git
 
       - name: npm install and link screenshot
-        run: |
-          'cd screenshot && npm install'
+        run: cd screenshot && npm install
 
       - name: npm install checkbox.io-micro-preview
-        run: |
-          'cd checkbox.io-micro-preview && npm install'
+        run: cd checkbox.io-micro-preview && npm install
       
       - name: copy mutation-coverage code
         run: cp -r /bakerx/mutation-coverage /home/vagrant/
 
-      - name: run mutation-coverage code
-        run: |
-          'cd mutation-coverage && npm install && node index.js'
+      - name: npm install mutation-coverage code
+        run: cd mutation-coverage && npm install
 

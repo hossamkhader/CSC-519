@@ -5,14 +5,6 @@ const ast_rewrite = require('./ast_rewrite');
 
 let changes = new Set();
 
-
-let snapshots = [
-    'http://localhost:3000/survey/long.md', 
-    'http://localhost:3000/survey/upload.md', 
-    'http://localhost:3000/survey/survey.md', 
-    'http://localhost:3000/survey/variations.md'
-];
-
 async function _exec(command) {
     return new Promise(function (resolve, reject) {
         let subprocess = exec(`${command}`, {maxBuffer: 1024*5000});
@@ -67,8 +59,14 @@ function sleep(ms) {
 
 
 async function main() {
+    url = process.argv[2]
+    iterations = process.argv[3]
+    snapshots = process.argv.slice(4, process.argv.size)
+
     await _exec('rm -rf results/*');
-    for (i=0; i < 1000; i++) {
+    await _exec(`cd .. && git clone ${url}`);
+    
+    for (i=0; i < iterations; i++) {
         await run();
     }
 }
