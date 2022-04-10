@@ -34,6 +34,7 @@ async function run() {
     await _exec('cd ../checkbox.io-micro-preview && git restore marqdown.js');
     await _exec('cd ASTRewrite && node index.js');
     let microservice = exec('node index.js', {cwd: '../checkbox.io-micro-preview'});
+    await sleep(1000);
     await _exec('rm -f snapshots/tmp/*');
     for (let snapshot of snapshots) {
         let file_name = snapshot.split('/')[4].split('.')[0]
@@ -46,6 +47,10 @@ async function run() {
     microservice.kill();
     await _exec('cd ../checkbox.io-micro-preview && git restore marqdown.js');
 };
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 
 async function main() {
