@@ -7,7 +7,7 @@ let changes = new Set();
 
 async function _exec(command) {
     return new Promise(function (resolve, reject) {
-        let subprocess = exec(`${ssh_command} "$printf ${command}"`, {maxBuffer: 1024*5000});
+        let subprocess = exec(`${command}`, {maxBuffer: 1024*5000});
         subprocess.stdout.on('data', stdout => {
             console.log( chalk.gray(stdout.toString() ));
         });
