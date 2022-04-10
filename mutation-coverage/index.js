@@ -33,13 +33,13 @@ async function _exec(command) {
 async function run() {
     await _exec('cd ../checkbox.io-micro-preview && git restore marqdown.js');
     await _exec('cd ASTRewrite && node index.js');
-    await _exec('lsof -ti tcp:3000 | xargs kill');
+    await _exec('lsof -ti tcp:3000 | xargs kill > /dev/null 2>&1');
     let microservice = exec('node index.js', {cwd: '../checkbox.io-micro-preview'});
     await sleep(1000);
     await _exec('rm -f snapshots/tmp/*');
     for (let snapshot of snapshots) {
         let file_name = snapshot.split('/')[4].split('.')[0]
-        await _exec(`../screenshot/screenshot.js ${snapshot} snapshots/tmp/${file_name}`);
+        await _exec(`../screenshot/screenshot.js ${snapshot} snapshots/tmp/${file_name} > /dev/null 2>&1`);
         if (md5File.sync(`snapshots/tmp/${file_name}.png`) != md5File.sync(`snapshots/baseline/${file_name}.png`)) {
             console.log(`TEST FAIL for ${file_name}`);
         }
