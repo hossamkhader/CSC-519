@@ -33,6 +33,7 @@ async function _exec(command) {
 async function run() {
     await _exec('cd ../checkbox.io-micro-preview && git restore marqdown.js');
     await _exec('cd ASTRewrite && node index.js');
+    await _exec('lsof -ti tcp:3000 | xargs kill');
     let microservice = exec('node index.js', {cwd: '../checkbox.io-micro-preview'});
     await sleep(1000);
     await _exec('rm -f snapshots/tmp/*');

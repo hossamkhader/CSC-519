@@ -76,7 +76,7 @@ jobs:
         run: sudo apt update
 
       - name: apt install
-        run: sudo apt install -y git npm libatk-bridge2.0-0 libcups2 libxkbcommon-x11-0 libxdamage-dev libgbm-dev libpangocairo-1.0-0
+        run: sudo apt install -y git npm libatk-bridge2.0-0 libcups2 libxkbcommon-x11-0 libxdamage-dev libgbm-dev libpangocairo-1.0-0 net-tools
 
       - name: git clone checkbox.io-micro-preview
         run: git clone https://github.com/chrisparnin/checkbox.io-micro-preview.git
