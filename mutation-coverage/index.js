@@ -39,7 +39,6 @@ async function run() {
     for (let snapshot of snapshots) {
         let file_name = snapshot.split('/')[4].split('.')[0]
         await _exec(`../screenshot/screenshot.js ${snapshot} snapshots/tmp/${file_name}`);
-        console.log(md5File.sync(`snapshots/tmp/${file_name}.png`), md5File.sync(`snapshots/baseline/${file_name}.png`));
         if (md5File.sync(`snapshots/tmp/${file_name}.png`) != md5File.sync(`snapshots/baseline/${file_name}.png`)) {
             console.log(`TEST FAIL for ${file_name}`);
         }

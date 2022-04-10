@@ -101,6 +101,10 @@ jobs:
       - name: copy mutation-coverage code
         run: cp -r /tmp/DEVOPS/mutation-coverage /home/vagrant/
 
+      - name: npm install for ASTRewrite
+        run: |
+          'cd mutation-coverage/ASTRewrite && npm install'
+
       - name: run mutation-coverage code
         run: |
           'cd mutation-coverage && npm install && node index.js'
