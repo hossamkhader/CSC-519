@@ -43,8 +43,8 @@ function NegateConditionals(ast) {
 
 }
 
-rewrite("/Users/cjparnin/classes/devops/checkbox.io-micro-preview/marqdown.js", 
-"/Users/cjparnin/classes/devops/checkbox.io-micro-preview/marqdown-mod.js")
+rewrite("/home/vagrant/checkbox.io-micro-preview/marqdown.js", 
+"/home/vagrant/checkbox.io-micro-preview/marqdown.js")
 
 
 function getRandomInt(max) {
