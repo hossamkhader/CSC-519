@@ -38,7 +38,7 @@ function NegateConditionals(ast) {
         if( node.type === "BinaryExpression" && node.operator === ">" ) {
             if( current === mutateTarget ) {
                 node.operator = "<"
-                console.log( chalk.red(`Replacing > with < on line ${node.loc.start.line}` ));
+                //console.log( chalk.red(`Replacing > with < on line ${node.loc.start.line}` ));
                 change = `Replacing > with < on line ${node.loc.start.line}`
             }
             current++;
