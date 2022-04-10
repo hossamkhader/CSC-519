@@ -5,14 +5,14 @@ const options = {tokens:true, tolerant: true, loc: true, range: true };
 const fs = require("fs");
 const chalk = require('chalk');
 
-let operations = [ NegateConditionals ]
+let operations = [ NegateConditionals, ConditionalBoundary ]
 
 function rewrite( filepath, newPath ) {
 
     var buf = fs.readFileSync(filepath, "utf8");
     var ast = esprima.parse(buf, options);    
 
-    let op = operations[0];
+    let op = operations[getRandomInt(operations.length)];
     
     var change = op(ast);
 
@@ -27,7 +27,7 @@ function NegateConditionals(ast) {
     let candidates = 0;
     let change;
     traverseWithParents(ast, (node) => {
-        if( node.type === "BinaryExpression" && node.operator === ">" ) {
+        if( node.type === "BinaryExpression" && [">", "<", "==", "!="].includes(node.operator) ) {
             candidates++;
         }
     })
@@ -35,17 +35,67 @@ function NegateConditionals(ast) {
     let mutateTarget = getRandomInt(candidates);
     let current = 0;
     traverseWithParents(ast, (node) => {
-        if( node.type === "BinaryExpression" && node.operator === ">" ) {
+        if( node.type === "BinaryExpression" ) {
             if( current === mutateTarget ) {
-                node.operator = "<"
-                //console.log( chalk.red(`Replacing > with < on line ${node.loc.start.line}` ));
-                change = `Replacing > with < on line ${node.loc.start.line}`
+                if ( node.operator === ">" ) {
+                    node.operator = "<"
+                    change = `Replacing > with < on line ${node.loc.start.line}`
+                }
+                else if ( node.operator === "<" ) {
+                    node.operator = ">"
+                    change = `Replacing < with > on line ${node.loc.start.line}`
+                }
+                else if ( node.operator === "==" ) {
+                    node.operator = "!="
+                    change = `Replacing == with != on line ${node.loc.start.line}`
+                }
+                else if ( node.operator === "!=" ) {
+                    node.operator = "=="
+                    change = `Replacing != with == on line ${node.loc.start.line}`
+                }
             }
             current++;
         }
     })
     return change;
+}
 
+function ConditionalBoundary(ast) {
+
+    let candidates = 0;
+    let change;
+    traverseWithParents(ast, (node) => {
+        if( node.type === "BinaryExpression" && [">", "<", ">=", "<="].includes(node.operator) ) {
+            candidates++;
+        }
+    })
+
+    let mutateTarget = getRandomInt(candidates);
+    let current = 0;
+    traverseWithParents(ast, (node) => {
+        if( node.type === "BinaryExpression" ) {
+            if( current === mutateTarget ) {
+                if ( node.operator === ">" ) {
+                    node.operator = ">="
+                    change = `Replacing > with >= on line ${node.loc.start.line}`
+                }
+                else if ( node.operator === "<" ) {
+                    node.operator = "<="
+                    change = `Replacing < with <= on line ${node.loc.start.line}`
+                }
+                else if ( node.operator === ">=" ) {
+                    node.operator = ">"
+                    change = `Replacing >= with > on line ${node.loc.start.line}`
+                }
+                else if ( node.operator === "<=" ) {
+                    node.operator = "<"
+                    change = `Replacing <= with < on line ${node.loc.start.line}`
+                }
+            }
+            current++;
+        }
+    })
+    return change;
 }
 
 function getRandomInt(max) {
