@@ -31,7 +31,6 @@ async function run() {
     await _exec('lsof -ti tcp:3000 | xargs kill > /dev/null 2>&1');
     var microservice = exec('node index.js', {cwd: '../checkbox.io-micro-preview'});
     await sleep(1000);
-    await _exec('rm -rf snapshots/tmp/*');
     for (let snapshot of snapshots) {
         var file_name = snapshot.split('/')[4].split('.')[0]
         await _exec(`../screenshot/screenshot.js ${snapshot} snapshots/tmp/${file_name} > /dev/null 2>&1`);
@@ -50,6 +49,7 @@ async function run() {
         }
     }
     microservice.kill();
+    await _exec('rm -rf snapshots/tmp/*');
     await _exec('cd ../checkbox.io-micro-preview && git restore marqdown.js');
 };
 
