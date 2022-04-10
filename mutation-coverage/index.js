@@ -10,6 +10,7 @@ function _exec(command) {
         execSync(`${command}`, {maxBuffer: 1024*5000});
     }
     catch (err) {
+        console.log(err);
     }
 }
 
@@ -23,8 +24,7 @@ async function run() {
         var file_name = snapshot.split('/')[4].split('.')[0]
         _exec(`../screenshot/screenshot.js ${snapshot} snapshots/tmp/${file_name} > /dev/null 2>&1`);
         if (md5File.sync(`snapshots/tmp/${file_name}.png`) != md5File.sync(`snapshots/baseline/${file_name}.png`)) {
-            if (!changes.has(change)) 
-            {
+            if (typeof(change) != 'undefined' && !changes.has(change)) {
                 changes.add(change);
                 count = changes.size;
                 console.log(change);
