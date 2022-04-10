@@ -56,7 +56,7 @@ async function _exec(command) {
 }
 
 async function run_mutation(url, iterations, snapshots) {
-    console.log("Mutation");
+    console.log("Running mutation-coverage");
 }
 
 
