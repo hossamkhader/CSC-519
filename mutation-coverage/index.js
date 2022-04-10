@@ -65,6 +65,7 @@ async function main() {
 
     await _exec('rm -rf results/*');
     await _exec(`cd .. && git clone ${url}`);
+    await _exec('cd ../checkbox.io-micro-preview && npm install');
     
     for (i=0; i < iterations; i++) {
         await run();
