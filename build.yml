@@ -97,7 +97,6 @@ jobs:
 
       - name: git clone Mac
         run: git clone https://${GITHUB_ACCESS_TOKEN}@github.ncsu.edu/CSC-DevOps-S22/DEVOPS-37.git /tmp/DEVOPS
-        run: git clone https://github.ncsu.edu/CSC-DevOps-S22/DEVOPS-37.git
       
       - name: copy mutation-coverage code
         run: cp -r /tmp/DEVOPS/mutation-coverage /home/vagrant/
