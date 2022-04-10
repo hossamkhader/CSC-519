@@ -51,9 +51,6 @@ jobs:
 
       - name: update mysql password in application.yml
         run: sed -i 's/password.*/password:\ admin\/g' iTrust2/iTrust2/src/main/resources/application.yml
-
-      # - name: update mysql driver in application.yml
-      #   run: sed -i 's/driver-class-name.*/driver-class-name:\ com.mysql.cj.jdbc.Driver\/g' iTrust2/iTrust2/src/main/resources/application.yml
       
       - name: print application.yml
         run: cat iTrust2/iTrust2/src/main/resources/application.yml
@@ -95,10 +92,7 @@ jobs:
       - name: copy mutation-coverage code
         run: cp -r /bakerx/mutation-coverage /home/vagrant/
 
-      - name: npm install for ASTRewrite
-        run: |
-          'cd mutation-coverage/ASTRewrite && npm install'
-
       - name: run mutation-coverage code
         run: |
           'cd mutation-coverage && npm install && node index.js'
+

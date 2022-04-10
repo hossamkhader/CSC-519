@@ -1,6 +1,9 @@
 const exec = require('child_process').exec;
 const chalk = require('chalk');
 const md5File = require('md5-file');
+const ast_rewrite = require('./ast_rewrite');
+
+let changes = new Set();
 
 
 let snapshots = [
@@ -32,16 +35,24 @@ async function _exec(command) {
 
 async function run() {
     await _exec('cd ../checkbox.io-micro-preview && git restore marqdown.js');
-    await _exec('cd ASTRewrite && node index.js');
+    var change = ast_rewrite.main();
     await _exec('lsof -ti tcp:3000 | xargs kill > /dev/null 2>&1');
-    let microservice = exec('node index.js', {cwd: '../checkbox.io-micro-preview'});
+    var microservice = exec('node index.js', {cwd: '../checkbox.io-micro-preview'});
     await sleep(1000);
-    await _exec('rm -f snapshots/tmp/*');
+    await _exec('rm -rf snapshots/tmp/*');
     for (let snapshot of snapshots) {
-        let file_name = snapshot.split('/')[4].split('.')[0]
+        var file_name = snapshot.split('/')[4].split('.')[0]
         await _exec(`../screenshot/screenshot.js ${snapshot} snapshots/tmp/${file_name} > /dev/null 2>&1`);
         if (md5File.sync(`snapshots/tmp/${file_name}.png`) != md5File.sync(`snapshots/baseline/${file_name}.png`)) {
-            console.log(`TEST FAIL for ${file_name}`);
+            if (!changes.has(change)) 
+            {
+                changes.add(change);
+                count = changes.size;
+                console.log(`TEST FAIL for ${file_name}`);
+                await _exec(`mkdir results/${count}`);
+                await _exec(`cp snapshots/tmp/${file_name}.png results/${count}`);
+                await _exec(`echo "${change}" > results/${count}/change`);
+            }
         }
     }
     microservice.kill();
@@ -54,7 +65,7 @@ function sleep(ms) {
 
 
 async function main() {
-
+    await _exec('rm -rf results/*');
     for (i=0; i < 1000; i++) {
         await run();
     }

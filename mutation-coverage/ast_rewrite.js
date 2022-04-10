@@ -14,15 +14,18 @@ function rewrite( filepath, newPath ) {
 
     let op = operations[0];
     
-    op(ast);
+    var change = op(ast);
 
     let code = escodegen.generate(ast);
     fs.writeFileSync( newPath, code);
+
+    return change;
 }
 
 function NegateConditionals(ast) {
 
     let candidates = 0;
+    let change;
     traverseWithParents(ast, (node) => {
         if( node.type === "BinaryExpression" && node.operator === ">" ) {
             candidates++;
@@ -36,16 +39,14 @@ function NegateConditionals(ast) {
             if( current === mutateTarget ) {
                 node.operator = "<"
                 console.log( chalk.red(`Replacing > with < on line ${node.loc.start.line}` ));
+                change = `Replacing > with < on line ${node.loc.start.line}`
             }
             current++;
         }
     })
+    return change;
 
 }
-
-rewrite("/home/vagrant/checkbox.io-micro-preview/marqdown.js", 
-"/home/vagrant/checkbox.io-micro-preview/marqdown.js")
-
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -111,3 +112,11 @@ function functionName( node )
 	}
 	return "anon function @" + node.loc.start.line;
 }
+
+
+function main()
+{
+    return rewrite("/home/vagrant/checkbox.io-micro-preview/marqdown.js", "/home/vagrant/checkbox.io-micro-preview/marqdown.js");
+}
+
+module.exports = { main };
