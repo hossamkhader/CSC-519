@@ -10,7 +10,6 @@ function _exec(command) {
         execSync(`${command}`, {maxBuffer: 1024*5000});
     }
     catch (err) {
-        console.log(err);
     }
 }
 
