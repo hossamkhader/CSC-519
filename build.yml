@@ -62,6 +62,15 @@ jobs:
         run: mvn -f iTrust2/iTrust2/pom.xml --batch-mode --update-snapshots clean test
 
   - name: mutation-coverage
+    mutation:
+      url: https://github.com/chrisparnin/checkbox.io-micro-preview
+      iterations: 1000
+      snapshots:
+       - http://localhost:3000/survey/long.md
+       - http://localhost:3000/survey/upload.md
+       - http://localhost:3000/survey/survey.md
+       - http://localhost:3000/survey/variations.md
+       
     steps:
       - name: apt update
         run: sudo apt update
@@ -82,22 +91,3 @@ jobs:
       - name: npm install checkbox.io-micro-preview
         run: |
           'cd checkbox.io-micro-preview && npm install'
-
-      - name: node index.js
-        run: |
-          'cd checkbox.io-micro-preview && node index.js &'
-
-      - name: mkdir tmp
-        run: mkdir tmp
-
-      - name: screenshot long.md
-        run: screenshot http://localhost:3000/survey/long.md tmp/long
-
-      - name: screenshot upload.md
-        run: screenshot http://localhost:3000/survey/upload.md tmp/upload
-
-      - name: screenshot survey.md
-        run: screenshot http://localhost:3000/survey/survey.md tmp/survey
-
-      - name: screenshot variations.md
-        run: screenshot http://localhost:3000/survey/variations.md tmp/variations

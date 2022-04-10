@@ -55,14 +55,23 @@ async function _exec(command) {
     });
 }
 
+async function run_mutation(url, iterations, snapshots) {
+    console.log("Mutation");
+}
+
 
 exports.handler = async argv => {
     console.log(chalk.green("Building..."));
     ssh_command = await get_ssh_command();
-
-    for (command of buildSpec) {
-        console.log(command);
-        await _exec(command);
+    if ('steps' in buildSpec) {
+        for (step of buildSpec.steps) {
+            console.log(step);
+            await _exec(step);
+        }
     }
+    if ('mutation' in buildSpec) {
+        run_mutation(jobs_specs.url, jobs_specs.iterations, jobs_specs.snapshots);
+    }
+    
         
 };
