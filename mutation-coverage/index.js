@@ -29,8 +29,9 @@ async function run() {
                     changes.add(change);
                     count = changes.size;
                     console.log(change);
-                    console.log(`TEST FAIL for ${file_name}`);
-                    console.log(`Saving a snapshot and the change that caused the test to fail in results/${count}`);
+                    console.log(`TEST FAIL for snapshot: ${file_name}`);
+                    console.log(`Saving the failed snapshot and the change that caused the test to fail to the directory: results/${count}`);
+                    console.log();
                     _exec(`mkdir results/${count}`);
                     _exec(`cp snapshots/tmp/${file_name}.png results/${count}`);
                     _exec(`echo "${change}" > results/${count}/change`);
