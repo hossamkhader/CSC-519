@@ -40,6 +40,8 @@ async function run() {
             microservice.kill();
         }
         catch (err) {
+            screenshot.kill();
+            microservice.kill();
         }
     }
     _exec('rm -rf snapshots/tmp/*');
