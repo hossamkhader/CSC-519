@@ -4,6 +4,7 @@ const md5File = require('md5-file');
 const ast_rewrite = require('./ast_rewrite');
 
 let changes = new Set();
+let snapshots = [];
 
 function _exec(command) {
     try {
