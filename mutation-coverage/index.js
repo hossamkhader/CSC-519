@@ -63,6 +63,7 @@ async function main() {
     for (i=0; i < iterations; i++) {
         await run();
     }
+    process.exit();
 }
 
 
