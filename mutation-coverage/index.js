@@ -18,25 +18,30 @@ async function run() {
     execSync('cd ../checkbox.io-micro-preview && git restore marqdown.js');
     var change = ast_rewrite.main();
     _exec('lsof -ti tcp:3000 | xargs kill > /dev/null 2>&1');
-    var microservice = exec('node index.js', {cwd: '../checkbox.io-micro-preview'});
-    await sleep(1000);
     for (let snapshot of snapshots) {
-        var file_name = snapshot.split('/')[4].split('.')[0]
-        _exec(`../screenshot/screenshot.js ${snapshot} snapshots/tmp/${file_name} > /dev/null 2>&1`);
-        if (md5File.sync(`snapshots/tmp/${file_name}.png`) != md5File.sync(`snapshots/baseline/${file_name}.png`)) {
-            if (typeof(change) != 'undefined' && !changes.has(change)) {
-                changes.add(change);
-                count = changes.size;
-                console.log(change);
-                console.log(`TEST FAIL for ${file_name}`);
-                console.log(`Saving a snapshot and the change that caused the test to fail in results/${count}`);
-                _exec(`mkdir results/${count}`);
-                _exec(`cp snapshots/tmp/${file_name}.png results/${count}`);
-                _exec(`echo "${change}" > results/${count}/change`);
+        try {
+            var microservice = exec('node index.js', {cwd: '../checkbox.io-micro-preview'});
+            await sleep(1000);
+            var file_name = snapshot.split('/')[4].split('.')[0]
+            var screenshot = exec(`../screenshot/screenshot.js ${snapshot} snapshots/tmp/${file_name} > /dev/null 2>&1`, {timeout: 2000});
+            if (md5File.sync(`snapshots/tmp/${file_name}.png`) != md5File.sync(`snapshots/baseline/${file_name}.png`)) {
+                if (typeof(change) != 'undefined' && !changes.has(change)) {
+                    changes.add(change);
+                    count = changes.size;
+                    console.log(change);
+                    console.log(`TEST FAIL for ${file_name}`);
+                    console.log(`Saving a snapshot and the change that caused the test to fail in results/${count}`);
+                    _exec(`mkdir results/${count}`);
+                    _exec(`cp snapshots/tmp/${file_name}.png results/${count}`);
+                    _exec(`echo "${change}" > results/${count}/change`);
+                }
             }
+            screenshot.kill();
+            microservice.kill();
+        }
+        catch (err) {
         }
     }
-    microservice.kill();
     _exec('rm -rf snapshots/tmp/*');
     _exec('cd ../checkbox.io-micro-preview && git restore marqdown.js');
 };
