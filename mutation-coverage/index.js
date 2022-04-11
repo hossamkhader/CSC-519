@@ -22,8 +22,8 @@ async function run() {
         try {
             var microservice = exec('node index.js', {cwd: '../checkbox.io-micro-preview'});
             await sleep(1000);
-            var file_name = snapshot.split('/')[4].split('.')[0]
-            var screenshot = execSync(`../screenshot/screenshot.js ${snapshot} snapshots/tmp/${file_name}`);
+            var file_name = snapshot.split('/')[4].split('.')[0];
+            var screenshot = execSync(`../screenshot/screenshot.js ${snapshot} snapshots/tmp/${file_name} /dev/null 2>&1`, {timeout: 10000});
             if (md5File.sync(`snapshots/tmp/${file_name}.png`) != md5File.sync(`snapshots/baseline/${file_name}.png`)) {
                 if (!changes.has(change)) {
                     changes.add(change);
@@ -40,7 +40,6 @@ async function run() {
             microservice.kill();
         }
         catch (err) {
-            screenshot.kill();
             microservice.kill();
         }
     }
