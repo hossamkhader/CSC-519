@@ -24,15 +24,20 @@ function rewrite( filepath, newPath ) {
 
 function NegateConditionals(ast) {
 
-    let candidates = 0;
+    let candidates = [];
     let change;
+
+    let i = 0;
     traverseWithParents(ast, (node) => {
-        if( node.type === "BinaryExpression" && [">", "<", "==", "!="].includes(node.operator) ) {
-            candidates++;
+        if( node.type === "BinaryExpression" ) {
+            if ( [">", "<", "==", "!="].includes(node.operator) ) {
+                candidates.push(i);
+            }
+            i++;
         }
     })
 
-    let mutateTarget = getRandomInt(candidates);
+    let mutateTarget = candidates[getRandomInt(candidates.length)];
     let current = 0;
     traverseWithParents(ast, (node) => {
         if( node.type === "BinaryExpression" ) {
@@ -62,15 +67,20 @@ function NegateConditionals(ast) {
 
 function ConditionalBoundary(ast) {
 
-    let candidates = 0;
+    let candidates = [];
     let change;
+
+    let i = 0;
     traverseWithParents(ast, (node) => {
-        if( node.type === "BinaryExpression" && [">", "<", ">=", "<="].includes(node.operator) ) {
-            candidates++;
+        if( node.type === "BinaryExpression" ) {
+            if ( [">", "<", ">=", "<="].includes(node.operator) ){
+                candidates.push(i);
+            }
+            i++;
         }
     })
 
-    let mutateTarget = getRandomInt(candidates);
+    let mutateTarget = candidates[getRandomInt(candidates.length)];
     let current = 0;
     traverseWithParents(ast, (node) => {
         if( node.type === "BinaryExpression" ) {
