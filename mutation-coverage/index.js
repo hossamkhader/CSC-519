@@ -64,6 +64,7 @@ async function main() {
     for (i=0; i < iterations; i++) {
         await run();
     }
+    console.log('Mutation coverage: ', (changes.size / iterations) * 100, '%' );
     process.exit();
 }
 
