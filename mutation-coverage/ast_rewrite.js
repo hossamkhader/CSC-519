@@ -10,8 +10,8 @@ let operations = [
     ConditionalBoundary, 
     IncrementalMutations, 
     ConditionalExpression, 
-    //NonEmptyString, 
-    //MutateControlFlow,
+    NonEmptyString, 
+    MutateControlFlow,
     ConstantReplacement, 
     CloneReturnEarly
 ]
@@ -240,7 +240,7 @@ function ConstantReplacement(ast) {
     let i = 0;
     traverseWithParents(ast, (node) => {
         if( node.type === "Literal" ) {
-            if ( node.value == 0 ) {
+            if ( node.value === 0 ) {
                 candidates.push(i);
             }
             i++;
