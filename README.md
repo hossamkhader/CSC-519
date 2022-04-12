@@ -15,6 +15,7 @@ GITHUB_ACCESS_TOKEN=***************
 * `pipeline init`  Automatically provisions and configures a build server
 * `pipeline build <build-job-name> <spec-file.yml>`    Automatically configures a build environment for the <build-job-name> job specification in the <spec-file.yml> spec file
   * To build iTrust, run `pipeline build build-itrust build.yml`
+  * To run mutation coverage, run `pipeline build mutation-coverage build.yml`
 
 ## M1 Report
  
@@ -49,5 +50,15 @@ GITHUB_ACCESS_TOKEN=***************
  * Specifying the build version numbers for each build
  * Storing build specs that are built dynamically inside a folder along with its build version number
  
-## Screencast
+### Screencast
  The screencast can be found [here](https://github.ncsu.edu/CSC-DevOps-S22/DEVOPS-37/tree/main/Screencasts).
+ 
+## M2 Report
+ 
+### Issues We Faced
+
+### What We Learned
+
+### What We Didn't Get To
+ 
+### Screencast
