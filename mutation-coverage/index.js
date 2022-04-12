@@ -20,7 +20,7 @@ async function run() {
     _exec('lsof -ti tcp:3000 | xargs kill > /dev/null 2>&1');
     for (let snapshot of snapshots) {
         try {
-            var microservice = exec('node index.js', {cwd: '../checkbox.io-micro-preview'});
+            var microservice = exec('node index.js /dev/null 2>&1', {cwd: '../checkbox.io-micro-preview'});
             await sleep(1000);
             var file_name = snapshot.split('/')[4].split('.')[0];
             execSync(`timeout 10 ../screenshot/screenshot.js ${snapshot} snapshots/tmp/${file_name} /dev/null 2>&1`);
