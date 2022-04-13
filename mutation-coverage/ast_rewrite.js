@@ -151,8 +151,17 @@ function MutateControlFlow(ast) {
 
     let i = 0;
     traverseWithParents(ast, (node) => {
-        if( "alternate" in node && node.type === "BlockStatement" ) {
-            candidates.push(i);
+        if( node.type === "IfStatement" ) {
+            var p = node.parent.parent.body;
+            if (p) {
+                for (j = 0; j < p.length; j++) {
+                    if ( node === p[j] && j < p.length - 1) {
+                        if(p[j].type === "IfStatement" && p[j + 1].type === "IfStatement" ) {
+                            candidates.push(i);
+                        }
+                    }
+                }
+            }
             i++;
         }
     })
@@ -160,10 +169,20 @@ function MutateControlFlow(ast) {
     let mutateTarget = candidates[getRandomInt(candidates.length)];
     let current = 0;
     traverseWithParents(ast, (node) => {
-        if( "alternate" in node && node.type === "BlockStatement" ) {
+        if( node.type === "IfStatement" ) {
             if( current === mutateTarget ) {
-                change = `Replacing "if" with "else if" on line ${node.loc.start.line}`;
-                node.type = "IfStatement";
+                var p = node.parent.parent.body;
+                if (p) {
+                    for (j = 0; j < p.length; j++) {
+                        if ( node === p[j] && j < p.length - 1) {
+                            if(p[j].type === "IfStatement" && p[j + 1].type === "IfStatement" ) {
+                                change = `Replacing "if" with "else if" on line ${p[j + 1].loc.start.line}`;
+                                p[j+ 1].type = "IfStatement";
+                                p[j].alternate = p[j + 1];
+                            }
+                        }
+                    }
+                }
             }
             current++;
         }
