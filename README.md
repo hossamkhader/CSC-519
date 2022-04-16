@@ -58,9 +58,11 @@ GITHUB_ACCESS_TOKEN=***************
 ### Issues We Faced
 * One issue we faced was parsing the AST tree to get the right nodes to mutate. Something that was very helpful was the Esprisma AST resource from class that helped us visualize how a block of code looks like as an AST tree.
 * Another issue we faced was one of our mutations, the MutateControlFlow, was giving us an undefined error. We realized that this was because we had to make our code recognize two consequent if statements. Again, the issue came with how we would parse the AST tree to find this occurence.
+  * ![Mutate Control Flow Issue](https://github.ncsu.edu/CSC-DevOps-S22/DEVOPS-37/blob/main/images/mutatecontrolflow_pic.png)
 
 ### What We Learned
-* One thing we learned was how to parse an AST tree to look for certain nodes. 
+* One thing we learned was how to parse an AST tree to look for certain nodes
+ * ![Parse AST Tree](https://github.ncsu.edu/CSC-DevOps-S22/DEVOPS-37/blob/main/images/esprima_parser.png)
 * Another thing we learned was how to build off our build.yml in being able to build more other scripts
 
 ### What We Didn't Get To
