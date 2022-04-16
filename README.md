@@ -56,9 +56,14 @@ GITHUB_ACCESS_TOKEN=***************
 ## M2 Report
  
 ### Issues We Faced
+* One issue we faced was parsing the AST tree to get the right nodes to mutate. Something that was very helpful was the Esprisma AST resource from class that helped us visualize how a block of code looks like as an AST tree.
+* Another issue we faced was one of our mutations, the MutateControlFlow, was giving us an undefined error. We realized that this was because we had to make our code recognize two consequent if statements. Again, the issue came with how we would parse the AST tree to find this occurence.
 
 ### What We Learned
+* One thing we learned was how to parse an AST tree to look for certain nodes. 
+* Another thing we learned was how to build off our build.yml in being able to build more other scripts
 
 ### What We Didn't Get To
+* One thing we didn't get to was deploying our code to DigitalOcean to run the tests in the cloud. We did our 1000 runs locally on our machiine (left it running over night)
  
 ### Screencast
