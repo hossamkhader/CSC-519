@@ -1,0 +1,800 @@
+Build name: mutation-coverage
+Spec file: build.yml
+Loaded env file:
+{
+   "parsed": {
+      "GITHUB_ACCESS_TOKEN": "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"
+   }
+}
+Running on platform: linux processor: x64
+Building...
+sudo apt -y remove unattended-upgrades
+Warning: Permanently added '[127.0.0.1]:2003' (ED25519) to the list of known hosts.
+
+
+
+WARNING: 
+apt
+ does not have a stable CLI interface. 
+Use with caution in scripts.
+
+
+Reading package lists...
+
+
+Building dependency tree...
+
+
+Reading state information...
+
+
+Package 'unattended-upgrades' is not installed, so not removed
+
+0 upgraded, 0 newly installed, 0 to remove and 16 not upgraded.
+
+sudo apt update
+Warning: Permanently added '[127.0.0.1]:2003' (ED25519) to the list of known hosts.
+
+
+
+WARNING: apt
+ does not have a stable CLI interface. 
+Use with caution in scripts.
+
+
+
+Get:1 http://security.ubuntu.com/ubuntu focal-security InRelease [114 kB]
+
+Hit:2 http://archive.ubuntu.com/ubuntu focal InRelease
+
+Get:3 http://archive.ubuntu.com/ubuntu focal-updates InRelease [114 kB]
+
+Get:4 http://archive.ubuntu.com/ubuntu focal-backports InRelease [108 kB]
+
+Get:5 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 Packages [1712 kB]
+
+Get:6 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 Packages [918 kB]
+
+Fetched 2967 kB in 3s (874 kB/s)
+Reading package lists...
+
+
+Building dependency tree...
+
+
+Reading state information...
+
+
+16 packages can be upgraded. Run 'apt list --upgradable' to see them.
+
+sudo apt install -y git npm libatk-bridge2.0-0 libcups2 libxkbcommon-x11-0 libxdamage-dev libgbm-dev libpangocairo-1.0-0 net-tools
+Warning: Permanently added '[127.0.0.1]:2003' (ED25519) to the list of known hosts.
+
+
+
+WARNING: 
+apt
+ does not have a stable CLI interface. 
+Use with caution in scripts.
+
+
+Reading package lists...
+
+
+Building dependency tree...
+
+
+Reading state information...
+
+
+libpangocairo-1.0-0 is already the newest version (1.44.7-2ubuntu4).
+libxdamage-dev is already the newest version (1:1.1.5-2).
+libxkbcommon-x11-0 is already the newest version (0.10.0-1).
+net-tools is already the newest version (1.60+git20180626.aebd88e-1ubuntu1).
+npm is already the newest version (6.14.4+ds-1ubuntu2).
+git is already the newest version (1:2.25.1-1ubuntu3.3).
+libatk-bridge2.0-0 is already the newest version (2.34.2-0ubuntu2~20.04.1).
+libcups2 is already the newest version (2.3.1-9ubuntu1.1).
+libgbm-dev is already the newest version (21.2.6-0ubuntu0.1~20.04.2).
+
+0 upgraded, 0 newly installed, 0 to remove and 16 not upgraded.
+
+git clone https://github.com/ruttabega/screenshot.git
+Warning: Permanently added '[127.0.0.1]:2003' (ED25519) to the list of known hosts.
+
+fatal: destination path 'screenshot' already exists and is not an empty directory.
+
+cd screenshot && npm install
+Warning: Permanently added '[127.0.0.1]:2003' (ED25519) to the list of known hosts.
+
+npm
+ 
+WARN
+ screenshot@1.0.0 No repository field.
+
+
+
+audited 58 packages in 1.532s
+
+
+8 packages are looking for funding
+  run `npm fund` for details
+
+
+found 0 vulnerabilities
+
+
+cd checkbox.io-micro-preview && npm install
+Warning: Permanently added '[127.0.0.1]:2003' (ED25519) to the list of known hosts.
+
+npm
+ 
+WARN
+ preview@1.0.0 No repository field.
+
+
+
+audited 97 packages in 1.95s
+
+
+10 packages are looking for funding
+  run `npm fund` for details
+
+
+found 2 high severity vulnerabilities
+  run `npm audit fix` to fix them, or `npm audit` for details
+
+cp -r /bakerx/mutation-coverage /home/vagrant/
+Warning: Permanently added '[127.0.0.1]:2003' (ED25519) to the list of known hosts.
+
+cd mutation-coverage && npm install
+Warning: Permanently added '[127.0.0.1]:2003' (ED25519) to the list of known hosts.
+
+npm
+ 
+WARN
+ mutation-coverage@1.0.0 No description
+
+npm WARN
+ mutation-coverage@1.0.0 No repository field.
+
+
+
+audited 37 packages in 1.122s
+
+
+3 packages are looking for funding
+  run `npm fund` for details
+
+
+found 1 high severity vulnerability
+  run `npm audit fix` to fix them, or `npm audit` for details
+
+Warning: Permanently added '[127.0.0.1]:2003' (ED25519) to the list of known hosts.
+
+fatal: destination path 'checkbox.io-micro-preview' already exists and is not an empty directory.
+
+npm WARN preview@1.0.0 No repository field.
+
+
+Replacing "if" with "else if" on line 239
+
+TEST FAIL for snapshot: long
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/1
+
+
+Inserting "return embeddedHtml;" on line 373
+
+TEST FAIL for snapshot: upload
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/2
+
+
+
+/bin/sh: 1:  on line 373: not found
+
+Replacing 0 with 3 on line 154
+
+TEST FAIL for snapshot: upload
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/3
+
+
+
+Replacing "" with "<div>Bug</div>" on line 102
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/4
+
+
+
+/bin/sh: 1: cannot open div: No such file
+
+Replacing == with != on line 228
+
+TEST FAIL for snapshot: long
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/5
+
+
+
+Replacing > with >= on line 294
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/6
+
+
+Replacing i++ with ++i on line 104
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/7
+
+
+Replacing < with <= on line 104
+
+TEST FAIL for snapshot: long
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/8
+
+
+
+Replacing itemNumber++ with ++itemNumber on line 236
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/9
+
+
+Replacing > with >= on line 179
+
+TEST FAIL for snapshot: upload
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/10
+
+
+
+Replacing < with > on line 377
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/11
+
+
+
+Replacing "" with "<div>Bug</div>" on line 332
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/12
+
+
+/bin/sh: 1: cannot open div: No such file
+
+Replacing == with != on line 203
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/13
+
+
+
+Replacing > with >= on line 272
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/14
+
+
+Replacing && with || on line 233
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/15
+
+
+
+Inserting "return embeddedHtml;" on line 372
+
+TEST FAIL for snapshot: long
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/16
+
+
+/bin/sh: 1:  on line 372: not found
+
+Replacing && with || on line 294
+
+TEST FAIL for snapshot: upload
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/17
+
+
+Inserting "return embeddedHtml;" on line 371
+
+TEST FAIL for snapshot: long
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/18
+
+
+
+/bin/sh: 1:  on line 371: not found
+
+Replacing 0 with 3 on line 160
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/19
+
+
+
+Replacing pageNumber++ with ++pageNumber on line 211
+
+TEST FAIL for snapshot: upload
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/20
+
+
+
+Replacing 0 with 3 on line 329
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/21
+
+
+Replacing 0 with 3 on line 377
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/22
+
+
+
+Replacing || with && on line 388
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/23
+
+
+Replacing == with != on line 107
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/24
+
+
+
+Replacing 0 with 3 on line 179
+
+TEST FAIL for snapshot: upload
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/25
+
+
+Replacing && with || on line 107
+
+TEST FAIL for snapshot: upload
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/26
+
+
+Replacing "" with "<div>Bug</div>" on line 252
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/27
+
+
+/bin/sh: 1: cannot open div: No such file
+
+Replacing == with != on line 388
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/28
+
+
+Replacing "" with "<div>Bug</div>" on line 288
+
+TEST FAIL for snapshot: upload
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/29
+
+
+
+/bin/sh: 1: cannot open div: No such file
+
+Replacing 0 with 3 on line 144
+
+TEST FAIL for snapshot: upload
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/30
+
+
+
+Replacing "if" with "else if" on line 217
+
+TEST FAIL for snapshot: upload
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/31
+
+
+
+Replacing questionNumber++ with ++questionNumber on line 196
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/32
+
+
+Replacing > with < on line 272
+
+TEST FAIL for snapshot: long
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/33
+
+
+
+Replacing ++i with i++ on line 249
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/34
+
+
+
+Replacing "" with "<div>Bug</div>" on line 345
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/35
+
+
+/bin/sh: 1: cannot open div: No such file
+
+Replacing && with || on line 177
+
+TEST FAIL for snapshot: upload
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/36
+
+
+
+Replacing "if" with "else if" on line 233
+
+TEST FAIL for snapshot: long
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/37
+
+
+
+Replacing "if" with "else if" on line 318
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/38
+
+
+Replacing i++ with ++i on line 160
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/39
+
+
+Replacing > with < on line 179
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/40
+
+
+Replacing && with || on line 329
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/41
+
+
+Replacing pageNumber++ with ++pageNumber on line 158
+
+TEST FAIL for snapshot: upload
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/42
+
+
+Replacing >= with > on line 183
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/43
+
+
+Replacing || with && on line 374
+
+TEST FAIL for snapshot: long
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/44
+
+
+
+Replacing < with > on line 160
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/45
+
+
+
+Replacing 0 with 3 on line 189
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/46
+
+
+
+Replacing && with || on line 165
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/47
+
+
+Replacing 0 with 3 on line 193
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/48
+
+
+
+Replacing "if" with "else if" on line 112
+
+TEST FAIL for snapshot: survey
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/49
+
+
+Replacing 0 with 3 on line 107
+
+TEST FAIL for snapshot: long
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/50
+
+
+
+Replacing i++ with ++i on line 89
+
+TEST FAIL for snapshot: upload
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/51
+
+
+
+Replacing 0 with 3 on line 341
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/52
+
+
+Replacing "if" with "else if" on line 177
+
+TEST FAIL for snapshot: upload
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/53
+
+
+Replacing "" with "<div>Bug</div>" on line 338
+
+TEST FAIL for snapshot: upload
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/54
+
+
+/bin/sh: 1: cannot open div: No such file
+
+Replacing == with != on line 345
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/55
+
+
+
+Replacing "" with "<div>Bug</div>" on line 192
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/56
+
+
+
+/bin/sh: 1: cannot open div: No such file
+
+Replacing "if" with "else if" on line 267
+
+TEST FAIL for snapshot: upload
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/57
+
+
+
+Replacing x++ with ++x on line 377
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/58
+
+
+Replacing 0 with 3 on line 185
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/59
+
+
+
+Replacing "" with "<div>Bug</div>" on line 301
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/60
+
+
+/bin/sh: 1: cannot open div: No such file
+
+Replacing 0 with 3 on line 104
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/61
+
+
+
+Replacing 0 with 3 on line 183
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/62
+
+
+
+Replacing "" with "<div>Bug</div>" on line 373
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/63
+
+
+
+/bin/sh: 1: cannot open div: No such file
+
+Replacing > with >= on line 329
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/64
+
+
+Replacing "if" with "else if" on line 203
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/65
+
+
+Replacing || with && on line 228
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/66
+
+
+
+Replacing 0 with 3 on line 321
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/67
+
+
+Replacing > with < on line 294
+
+TEST FAIL for snapshot: long
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/68
+
+
+Replacing && with || on line 289
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/69
+
+
+
+Replacing == with != on line 267
+
+TEST FAIL for snapshot: upload
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/70
+
+
+Replacing ++i with i++ on line 282
+
+TEST FAIL for snapshot: long
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/71
+
+
+
+Replacing == with != on line 239
+
+TEST FAIL for snapshot: long
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/72
+
+
+Replacing == with != on line 374
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/73
+
+
+
+Replacing == with != on line 321
+
+TEST FAIL for snapshot: long
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/74
+
+
+
+Replacing != with == on line 321
+
+TEST FAIL for snapshot: long
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/75
+
+
+
+Replacing && with || on line 302
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/76
+
+
+Replacing || with && on line 321
+
+TEST FAIL for snapshot: upload
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/77
+
+
+Replacing != with == on line 400
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/78
+
+
+Replacing < with <= on line 89
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/79
+
+
+
+Replacing && with || on line 272
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/80
+
+
+Replacing != with == on line 329
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/81
+
+
+
+Replacing != with == on line 233
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/82
+
+
+
+Replacing == with != on line 165
+
+TEST FAIL for snapshot: upload
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/83
+
+
+
+Replacing < with > on line 104
+
+TEST FAIL for snapshot: long
+
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/84
+
+
+
+Replacing 0 with 3 on line 225
+
+TEST FAIL for snapshot: upload
+Saving the failed snapshot and the change that caused the test to fail to the directory: results/85
+
+
+Mutation coverage:  8.5 %
+
