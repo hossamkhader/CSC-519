@@ -34,7 +34,7 @@ async function run() {
                     console.log();
                     _exec(`mkdir results/${count}`);
                     _exec(`cp snapshots/tmp/${file_name}.png results/${count}`);
-                    _exec(`echo "${change}" > results/${count}/change`);
+                    _exec(`echo "${change}" > results/${count}/change.txt`);
                 }
             }
             microservice.kill();
