@@ -51,7 +51,7 @@ GITHUB_ACCESS_TOKEN=***************
  * Storing build specs that are built dynamically inside a folder along with its build version number
  
 ### Screencast
- The screencast can be found [here](https://github.ncsu.edu/CSC-DevOps-S22/DEVOPS-37/tree/main/Screencasts).
+ The screencast for M1 can be found [here](https://github.ncsu.edu/CSC-DevOps-S22/DEVOPS-37/tree/main/Screencasts).
  
 ## M2 Report
  
@@ -69,3 +69,4 @@ GITHUB_ACCESS_TOKEN=***************
 * One thing we didn't get to was deploying our code to DigitalOcean to run the tests in the cloud. We did our 1000 runs locally on our machiine (left it running over night)
  
 ### Screencast
+ The screencast for M2 can also be found [here](https://github.ncsu.edu/CSC-DevOps-S22/DEVOPS-37/tree/main/Screencasts).
