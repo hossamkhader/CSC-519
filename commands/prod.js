@@ -49,7 +49,7 @@ exports.handler = async (argv) => {
   }
 
   if (target_status == "down") {
-    data = fs.readFileSync("inventory.json", "UTF-8");
+    data = fs.readFileSync("inventory", "UTF-8");
     droplets = JSON.parse(data.toString());
     for (droplet of droplets) {
       await client.deleteDroplet(droplet["id"]);
