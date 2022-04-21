@@ -33,9 +33,16 @@ exports.handler = async (argv) => {
   	keyPair = gen_ssh_keys();
   	key_id = await client.create_ssh_key("pipeline", keyPair["publicKey"]);
   
+	droplet_list = [
+		{"name": "blue", "role": "web"},
+		{"name": "green", "role": "web"},
+		{"name": "database", "role": "database"},
+		{"name": "proxy", "role": "proxy"}
+	]
+	
   	if (target_status == "up") {
 		  var droplets = [];
-		  for (i of ["test01"]) {
+		  for (i of droplet_list) {
 			  var dropletId = await client.createDroplet(i, "nyc1", "ubuntu-20-04-x64", [key_id]);
       	dropletAddress = await client.dropletInfo(dropletId);
       	droplets.push({"id": dropletId, "name": i, "address": dropletAddress});
@@ -139,14 +146,13 @@ class DigitalOceanProvider
 		if( response.data.droplet )
 		{
 			let droplet = response.data.droplet;
+			address = {"public": "", "private": ""}
 			for( let network of droplet["networks"]["v4"])
 			{
-				if (network["type"] == "public") 
-				{
-					return network["ip_address"];
-				}
-				
+				address_type = network["type"];
+				address[address_type] = network["ip_address"];
 			}
+			return address;
 		}
 
 	}

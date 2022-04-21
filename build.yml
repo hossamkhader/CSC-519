@@ -102,6 +102,9 @@ jobs:
           - sudo apt update
           - sudo apt install -y openjdk-11-jre tomcat9 git mysql-client
           - sudo ufw allow 8080/tcp
+          - sudo systemctl stop tomcat9
+          - lsof -ti tcp:8080 | xargs kill > /dev/null 2>&1
+          - nohup java -jar iTrust2-10.jar > /dev/null 2>&1 &
         database:
           - sudo apt update
           - sudo apt install -y mysql-server
@@ -111,8 +114,10 @@ jobs:
           - sudo mysql -e "GRANT ALL PRIVILEGES ON *.* TO admin@'%'"
           - sudo mysql -e "FLUSH PRIVILEGES"
           - sudo ufw allow 3306/tcp
-        loadbalancer:
+        proxy:
           - sudo apt update
           - sudo apt install -y npm
           - sudo ufw allow 8080/tcp
+          - cd deployment && npm install
+          - nohup node deployment/proxy.js > /dev/null 2>&1 &
 

@@ -19,27 +19,36 @@ exports.handler = async (argv) => {
 	data = fs.readFileSync(inventory_file, "UTF-8");
     droplets = JSON.parse(data.toString());
     for (droplet of droplets) {
-      hosts.push(`${droplet["address"]} ${droplet["name"]}`);
+      hosts.push(`${droplet.address.private} ${droplet["name"]}`);
     }
-
-    
   
     const ssh = new NodeSSH();
-    privateKey_path = path.join(path.dirname(require.main.filename), ".ssh/private_key");
-    app_archive_path = path.join(path.dirname(require.main.filename), "tmp/iTrust2-10.jar");
+    var privateKey_path = path.join(path.dirname(require.main.filename), ".ssh/private_key");
+    var app_archive_path = path.join(path.dirname(require.main.filename), "tmp/iTrust2-10.jar");
+    var service_ip;
     for (droplet of droplets) {
-      await ssh.connect({host: droplet["address"], username: "vagrant", privateKey: privateKey_path.toString()});
+      await ssh.connect({host: droplet.address.public, username: "vagrant", privateKey: privateKey_path.toString()});
       role = droplet.role
-      for (command of job_specs.deploy.roles[role]) {
-        await ssh.execCommand(command);
-      }
       for (host of hosts) {
         await ssh.execCommand(`echo '${host}' | sudo tee -a /etc/hosts`);
       }
-      await ssh.putFile(app_archive_path.toString(), "/home/vagrant/iTrust2-10.jar");
-    }
-    process.exit();
+      if (role == "web") {
+        await ssh.putFile(app_archive_path.toString(), "/home/vagrant/iTrust2-10.jar");
+      }
+      if (role == "proxy") {
+        await ssh.putDirectory("deployment", "/home/vagrant/deployment");
+        service_ip = droplet.address.public;
+      }
 
+      console.log("Running commands on droplet " + droplet.name);
+      for (command of job_specs.deploy.roles[role]) {
+        console.log(command);
+        await ssh.execCommand(command);
+      }
+    }
+
+    console.log(`Service is available on http://${service_ip}:8080/iTrust2`);
+    process.exit();
 };
 
 
