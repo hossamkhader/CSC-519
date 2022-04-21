@@ -2,25 +2,16 @@ const exec = require('child_process').exec;
 const util = require('util');
 const path = require('path');
 const chalk = require('chalk');
+parse_job_spec = require('../lib/jobSpec');
 
-let build_name = "";
-let spec_file = "";
 
-async function getArgv() {
-    exports.command = 'build <command> <command>';
-    exports.desc = 'Automatically configure a build environment for given build job specification';
-    exports.builder = yargs => {
-        yargs.commands('<build_job_name> <spec_file.yml>').version(false);
-    };
-    build_name = process.argv[3];
-    spec_file = process.argv[4];
-    exports.build_name = build_name;
-    exports.spec_file = spec_file;
-    return 1;
-}
-getArgv().then(console.log( chalk.gray( "Build name: " + build_name + "\nSpec file: " + spec_file) ));
+exports.command = 'build <job_name> <spec_file>';
+exports.desc = 'Automatically configure a build environment for given build job specification';
 
-const buildSpec = require('../lib/buildSpec');
+
+
+
+
 let ssh_command;
 
 async function get_ssh_command() {
@@ -56,17 +47,20 @@ async function _exec(command) {
 }
 
 exports.handler = async argv => {
+    job_name = process.argv[3];
+    spec_file = process.argv[4];
+    job_specs = parse_job_spec(spec_file, job_name);
     console.log(chalk.green("Building..."));
     ssh_command = await get_ssh_command();
-    if ('steps' in buildSpec) {
-        for (step of buildSpec.steps) {
+    if ('steps' in job_specs) {
+        for (step of job_specs.steps) {
             console.log(step);
             await _exec(step);
         }
     }
-    if ('mutation' in buildSpec) {
-        snapshots = buildSpec.mutation.snapshots.join(' ');
-        await _exec(`cd mutation-coverage && node index.js ${buildSpec.mutation.url} ${buildSpec.mutation.iterations} ${snapshots}`);
+    if ('mutation' in job_specs) {
+        snapshots = job_specs.mutation.snapshots.join(' ');
+        await _exec(`cd mutation-coverage && node index.js ${job_specs.mutation.url} ${job_specs.mutation.iterations} ${snapshots}`);
     }
     
         

@@ -7,55 +7,49 @@ const sshpk = require("sshpk");
 exports.command = "prod <target_status>";
 exports.desc = "provision instances on the cloud provider";
 exports.builder = (yargs) => {
-  target_status = process.argv[3];
+  
 };
 
 exports.handler = async (argv) => {
 
-  token = process.env.NCSU_DOTOKEN;
-  if( !token ) {
-    console.log(chalk`{red.bold NCSU_DOTOKEN is not defined!}`);
-    console.log(`Please set your environment variables with appropriate token.`);
-    console.log(chalk`{italic You may need to refresh your shell in order for your changes to take place.}`);
-    process.exit(1);
-  }
+	target_status = process.argv[3];
 
+	token = process.env.NCSU_DOTOKEN;
+	if( !token ) {
+		console.log(chalk`{red.bold NCSU_DOTOKEN is not defined!}`);
+		console.log(`Please set your environment variables with appropriate token.`);
+		console.log(chalk`{italic You may need to refresh your shell in order for your changes to take place.}`);
+		process.exit(1);
+	}
+  	console.log(chalk.green("provisioning instances on the cloud provider..."));
+
+  	let client = new DigitalOceanProvider(token);
   
-
-  console.log(chalk.green("provisioning instances on the cloud provider..."));
-
-
-
-
-
-  let client = new DigitalOceanProvider(token);
+  	for (ssh_key of await client.get_ssh_keys()) {
+		  if (ssh_key["name"] == "pipeline") {
+			  client.delete_ssh_key(ssh_key["id"]);
+			}
+		}
+  	keyPair = gen_ssh_keys();
+  	key_id = await client.create_ssh_key("pipeline", keyPair["publicKey"]);
   
-  for (ssh_key of await client.get_ssh_keys()) {
-    if (ssh_key["name"] == "pipeline") {
-      client.delete_ssh_key(ssh_key["id"]);
-    }
-  }
-  keyPair = gen_ssh_keys();
-  key_id = await client.create_ssh_key("pipeline", keyPair["publicKey"]);
-  
-  if (target_status == "up") {
-    var droplets = [];
-    for (i of ["test01"]) {
-      var dropletId = await client.createDroplet(i, "nyc1", "ubuntu-20-04-x64", [key_id]);
-      dropletAddress = await client.dropletInfo(dropletId);
-      droplets.push({"id": dropletId, "name": i, "address": dropletAddress});
-    }
+  	if (target_status == "up") {
+		  var droplets = [];
+		  for (i of ["test01"]) {
+			  var dropletId = await client.createDroplet(i, "nyc1", "ubuntu-20-04-x64", [key_id]);
+      	dropletAddress = await client.dropletInfo(dropletId);
+      	droplets.push({"id": dropletId, "name": i, "address": dropletAddress});
+	}
     fs.writeFileSync("inventory", JSON.stringify(droplets));
+	console.log(droplets);
   }
-
   if (target_status == "down") {
-    data = fs.readFileSync("inventory", "UTF-8");
-    droplets = JSON.parse(data.toString());
-    for (droplet of droplets) {
-      await client.deleteDroplet(droplet["id"]);
-    }
-  }
-
+	  data = fs.readFileSync("inventory", "UTF-8");
+    	droplets = JSON.parse(data.toString());
+    	for (droplet of droplets) {
+			await client.deleteDroplet(droplet["id"]);
+		}
+	}
 };
 
 

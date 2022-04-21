@@ -27,9 +27,6 @@ jobs:
       - name: start mysql
         run: sudo systemctl enable --now mysql
 
-      - name: check mysql status
-        run: sudo service mysql status
-
       - name: create mysql account
         run: sudo mysql -e \"CREATE USER admin@'%' IDENTIFIED BY 'admin'\"
 
@@ -49,16 +46,19 @@ jobs:
         run: sed -i 's/password.*/password:\ admin/g' iTrust2/iTrust2/src/main/resources/application.yml
 
       - name: update mysql hostname in application.yml
-        run: sed -i 's/localhost/database-host/g' iTrust2/iTrust2/src/main/resources/application.yml
+        run: sed -i 's/localhost/database/g' iTrust2/iTrust2/src/main/resources/application.yml
 
       - name: update hosts file
-        run: echo '127.0.0.1 database-host' | sudo tee -a /etc/hosts
+        run: echo '127.0.0.1 database' | sudo tee -a /etc/hosts
 
       - name: build iTrust2
         run: mvn -f iTrust2/iTrust2/pom.xml --batch-mode --update-snapshots clean test
 
       - name: package iTrust2
         run: mvn -f iTrust2/iTrust2/pom.xml package war:war
+
+      - name: copy iTrust2 archive
+        run: cp iTrust2/iTrust2/target/iTrust2-10.jar /bakerx/tmp/
 
   - name: mutation-coverage
     mutation:
@@ -94,4 +94,25 @@ jobs:
 
       - name: npm install mutation-coverage code
         run: cd mutation-coverage && npm install
+
+  - name: itrust-deploy
+    deploy:
+      roles:
+        web:
+          - sudo apt update
+          - sudo apt install -y openjdk-11-jre tomcat9 git mysql-client
+          - sudo ufw allow 8080/tcp
+        database:
+          - sudo apt update
+          - sudo apt install -y mysql-server
+          - sudo sed -i 's/bind-address.*=.*127.0.0.1/bind-address = 0.0.0.0/g' /etc/mysql/mysql.conf.d/mysqld.cnf
+          - sudo systemctl enable --now mysql
+          - sudo mysql -e "CREATE USER admin@'%' IDENTIFIED BY 'admin'"
+          - sudo mysql -e "GRANT ALL PRIVILEGES ON *.* TO admin@'%'"
+          - sudo mysql -e "FLUSH PRIVILEGES"
+          - sudo ufw allow 3306/tcp
+        loadbalancer:
+          - sudo apt update
+          - sudo apt install -y npm
+          - sudo ufw allow 8080/tcp
 

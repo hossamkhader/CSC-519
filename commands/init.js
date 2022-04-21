@@ -3,9 +3,6 @@ const child = require("child_process");
 
 exports.command = "init";
 exports.desc = "Prepare tool";
-exports.builder = (yargs) => {
-  yargs.options({});
-};
 
 exports.handler = async (argv) => {
 
