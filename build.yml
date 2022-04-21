@@ -31,10 +31,10 @@ jobs:
         run: sudo service mysql status
 
       - name: create mysql account
-        run: sudo mysql -e \"CREATE USER admin@localhost IDENTIFIED BY 'admin'\"
+        run: sudo mysql -e \"CREATE USER admin@'%' IDENTIFIED BY 'admin'\"
 
       - name: grant access to mysql account
-        run: sudo mysql -e \"GRANT ALL PRIVILEGES ON *.* TO admin@localhost\"
+        run: sudo mysql -e \"GRANT ALL PRIVILEGES ON *.* TO admin@'%'\"
 
       - name: flush mysql databases
         run: sudo mysql -e \"FLUSH PRIVILEGES\"
@@ -47,6 +47,12 @@ jobs:
 
       - name: update mysql password in application.yml
         run: sed -i 's/password.*/password:\ admin/g' iTrust2/iTrust2/src/main/resources/application.yml
+
+      - name: update mysql hostname in application.yml
+        run: sed -i 's/localhost/database-host/g' iTrust2/iTrust2/src/main/resources/application.yml
+
+      - name: update hosts file
+        run: echo '127.0.0.1 database-host' | sudo tee -a /etc/hosts
 
       - name: build iTrust2
         run: mvn -f iTrust2/iTrust2/pom.xml --batch-mode --update-snapshots clean test
