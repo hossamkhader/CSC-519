@@ -27,6 +27,19 @@ exports.handler = async (argv) => {
     var app_archive_path = path.join(path.dirname(require.main.filename), "tmp/iTrust2-10.jar");
     var service_ip;
     for (droplet of droplets) {
+      try {
+        await ssh.connect({host: droplet.address.public, username: "root", privateKey: privateKey_path.toString()});
+        await ssh.execCommand("useradd vagrant");
+        await ssh.execCommand("mkdir -p /home/vagrant/.ssh");
+        await ssh.execCommand("cp .ssh/authorized_keys /home/vagrant/.ssh");
+        await ssh.execCommand("chown -R vagrant:vagrant /home/vagrant");
+        await ssh.execCommand("echo 'vagrant ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/vagrant");
+        ssh.dispose();
+      }
+      catch(error) {
+
+      }
+      
       await ssh.connect({host: droplet.address.public, username: "vagrant", privateKey: privateKey_path.toString()});
       role = droplet.role
       for (host of hosts) {

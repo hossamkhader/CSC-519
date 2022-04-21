@@ -25,14 +25,6 @@ exports.handler = async (argv) => {
 
   	let client = new DigitalOceanProvider(token);
   
-  	for (ssh_key of await client.get_ssh_keys()) {
-		  if (ssh_key["name"] == "pipeline") {
-			  client.delete_ssh_key(ssh_key["id"]);
-			}
-		}
-  	keyPair = gen_ssh_keys();
-  	key_id = await client.create_ssh_key("pipeline", keyPair["publicKey"]);
-  
 	droplet_list = [
 		{"name": "blue", "role": "web"},
 		{"name": "green", "role": "web"},
@@ -41,20 +33,28 @@ exports.handler = async (argv) => {
 	]
 	
   	if (target_status == "up") {
+		for (ssh_key of await client.get_ssh_keys()) {
+			if (ssh_key["name"] == "pipeline") {
+				client.delete_ssh_key(ssh_key["id"]);
+			  }
+		  }
+		keyPair = gen_ssh_keys();
+		key_id = await client.create_ssh_key("pipeline", keyPair["publicKey"]);
 		  var droplets = [];
-		  for (i of droplet_list) {
-			  var dropletId = await client.createDroplet(i, "nyc1", "ubuntu-20-04-x64", [key_id]);
-      	dropletAddress = await client.dropletInfo(dropletId);
-      	droplets.push({"id": dropletId, "name": i, "address": dropletAddress});
-	}
-    fs.writeFileSync("inventory", JSON.stringify(droplets));
-	console.log(droplets);
-  }
+		  for (droplet of droplet_list) {
+			  var dropletId = await client.createDroplet(droplet["name"], "nyc1", "ubuntu-20-04-x64", [key_id]);
+			  sleep(2000);
+			  dropletAddress = await client.dropletInfo(dropletId);
+			  droplets.push({"id": dropletId, "name": droplet["name"], "address": dropletAddress, "role": droplet["role"]});
+			}
+			fs.writeFileSync("inventory", JSON.stringify(droplets));
+			console.log(droplets);
+		}
   if (target_status == "down") {
 	  data = fs.readFileSync("inventory", "UTF-8");
-    	droplets = JSON.parse(data.toString());
-    	for (droplet of droplets) {
-			await client.deleteDroplet(droplet["id"]);
+	  droplets = JSON.parse(data.toString());
+	  for (droplet of droplets) {
+		  await client.deleteDroplet(droplet["id"]);
 		}
 	}
 };
@@ -74,11 +74,17 @@ function gen_ssh_keys()
 		}
 	});
 
-	keyPair["publicKey"] = sshpk.parseKey(keyPair["publicKey"], "pem").toString("ssh");
+	keyPair["publicKey"] = sshpk.parseKey(keyPair["publicKey"], "pem").toString();
+	fs.writeFileSync(".ssh/public_key", keyPair["publicKey"]);
 
-	fs.writeFileSync(".ssh/public_key", keyPair["publicKey"].toString());
+	keyPair["privateKey"] = sshpk.parsePrivateKey(keyPair["privateKey"], "pem").toString();
 	fs.writeFileSync(".ssh/private_key", keyPair["privateKey"]);
+	
 	return keyPair;
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 
@@ -146,10 +152,10 @@ class DigitalOceanProvider
 		if( response.data.droplet )
 		{
 			let droplet = response.data.droplet;
-			address = {"public": "", "private": ""}
+			let address = {"public": "", "private": ""}
 			for( let network of droplet["networks"]["v4"])
 			{
-				address_type = network["type"];
+				let address_type = network["type"];
 				address[address_type] = network["ip_address"];
 			}
 			return address;
