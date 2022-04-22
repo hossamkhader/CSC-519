@@ -1,4 +1,3 @@
-const chalk = require('chalk');
 const path = require('path');
 const os = require('os');
 const { exec, execSync } = require('child_process');
@@ -25,7 +24,8 @@ class Production
     proxy()
     {
         let options = {};
-        let proxy   = httpProxy.createProxyServer(options);
+        let proxy = httpProxy.createProxyServer(options);
+        proxy.on('error', function (e) {});
         let self = this;
         // Redirect requests to the active TARGET (BLUE or GREEN)
         try {
@@ -50,14 +50,12 @@ class Production
       {
          var url = `http://${this.TARGET}:8080/iTrust2`;
          const response = await got(url, {throwHttpErrors: false});
-         let status = response.statusCode == 200 ? chalk.green(response.statusCode) : chalk.red(response.statusCode);
-         logger.log('info', `{Health check on ${this.TARGET}}: ${status}`);
+         logger.log('info', `{Health check on ${this.TARGET}}: ${response.statusCode == 200}`);
          if (!response.statusCode == 200) {
             this.failover();
          }
       }
       catch (error) {
-         console.log(error);
          this.failover();
       }
    }
@@ -83,7 +81,7 @@ function main() {
    catch(error) {
    }
 
-   console.log(chalk.keyword('pink')('Starting proxy on 0.0.0.0:8080'));
+   console.log('Starting proxy on 0.0.0.0:8080');
    let prod = new Production();
    prod.proxy();
 
