@@ -100,7 +100,7 @@ jobs:
       roles:
         web:
           - sudo apt update
-          - sudo apt install -y openjdk-11-jre tomcat9 git mysql-client
+          - sudo apt install -y openjdk-11-jre tomcat9 git mysql-client net-tools
           - sudo ufw allow 8080/tcp
           - sudo systemctl stop tomcat9
           - lsof -ti tcp:8080 | xargs kill > /dev/null 2>&1
@@ -116,7 +116,7 @@ jobs:
           - echo 'nohup java -jar iTrust2-10.jar > /dev/null 2>&1 &' >> itrust/itrust.git/hooks/post-receive
         database:
           - sudo apt update
-          - sudo apt install -y mysql-server
+          - sudo apt install -y mysql-server net-tools
           - sudo sed -i 's/bind-address.*=.*127.0.0.1/bind-address = 0.0.0.0/g' /etc/mysql/mysql.conf.d/mysqld.cnf
           - sudo systemctl enable --now mysql
           - sudo mysql -e "CREATE USER admin@'%' IDENTIFIED BY 'admin'"
@@ -126,7 +126,7 @@ jobs:
           - sudo systemctl restart --now mysql
         proxy:
           - sudo apt update
-          - sudo apt install -y npm
+          - sudo apt install -y npm net-tools
           - sudo ufw allow 8080/tcp
           - cd deployment && npm install
           - nohup node deployment/proxy.js > /dev/null 2>&1 &
