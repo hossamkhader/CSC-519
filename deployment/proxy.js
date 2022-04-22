@@ -8,8 +8,6 @@ const http = require('http');
 const httpProxy = require('http-proxy');
 
 
-let BLUE = "blue";
-let GREEN = "green";
 
 let logger;
 
@@ -17,20 +15,22 @@ class Production
 {
     constructor()
     {
-        this.TARGET = GREEN;
-        setInterval( this.healthCheck.bind(this), 5000 );
+       this.BLUE = 'blue';
+       this.GREEN = 'green';
+
+       this.TARGET = this.GREEN;
+       setInterval( this.healthCheck.bind(this), 5000 );
     }
 
     proxy()
     {
-        let options = {};
-        let proxy = httpProxy.createProxyServer(options);
-        proxy.on('error', function (e) {});
-        let self = this;
-        // Redirect requests to the active TARGET (BLUE or GREEN)
-        try {
-           let server  = http.createServer(function(req, res) {
-              proxy.web(req, res, {target: `http://${self.TARGET}:8080` });
+       let options = {};
+       let proxy = httpProxy.createProxyServer(options);
+       proxy.on('error', function (e) {});
+       let self = this;
+       try {
+          let server  = http.createServer(function(req, res) {
+             proxy.web(req, res, {target: `http://${self.TARGET}:8080` });
             });
             server.listen(8080);
          }
@@ -39,27 +39,35 @@ class Production
         }
    }
 
-   failover()
-   {
-      this.TARGET = BLUE;
-   }
-
    async healthCheck()
    {
+      this.TARGET = this.GREEN;
+      let blue_status = false;
+      let green_status = false;
       try 
       {
-         var url = `http://${this.TARGET}:8080/iTrust2`;
-         const response = await got(url, {throwHttpErrors: false});
-         logger.log('info', `{Health check on ${this.TARGET}}: ${response.statusCode == 200}`);
-         if (!response.statusCode == 200) {
-            this.failover();
-         }
+         const response = await got(`http://${this.GREEN}:8080/iTrust2`, {throwHttpErrors: false});
+         green_status = (response.statusCode == 200);
       }
       catch (error) {
-         this.failover();
       }
+
+      try
+      {
+         const response = await got(`http://${this.BLUE}:8080/iTrust2`, {throwHttpErrors: false});
+         blue_status = (response.statusCode == 200);
+      }
+      catch (error) {
+      }
+
+      if (!green_status) {
+         this.TARGET = this.BLUE;
+      }
+
+      logger.log('info', `Health check on BLUE: ${blue_status}`);
+      logger.log('info', `Health check on GREEN: ${green_status}`);
+      logger.log('info', `TARGET: ${this.TARGET}`);
    }
-   
 }
 
 function main() {
