@@ -46,10 +46,11 @@ exports.handler = async (argv) => {
         await ssh.execCommand(`echo '${host}' | sudo tee -a /etc/hosts`);
       }
       if (role == "web") {
-        await ssh.putFile(app_archive_path.toString(), "/home/vagrant/iTrust2-10.jar");
+        await ssh.execCommand("mkdir -p itrust/www");
+        await ssh.putFile(app_archive_path.toString(), "itrust/www/iTrust2-10.jar");
       }
       if (role == "proxy") {
-        await ssh.putDirectory("deployment", "/home/vagrant/deployment");
+        await ssh.putDirectory("deployment", "deployment");
         service_ip = droplet.address.public;
       }
 

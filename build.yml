@@ -104,7 +104,16 @@ jobs:
           - sudo ufw allow 8080/tcp
           - sudo systemctl stop tomcat9
           - lsof -ti tcp:8080 | xargs kill > /dev/null 2>&1
-          - nohup java -jar iTrust2-10.jar > /dev/null 2>&1 &
+          - nohup java -jar itrust/www/iTrust2-10.jar > /dev/null 2>&1 &
+          - rm -rf itrust/itrust.git
+          - mkdir -p itrust/itrust.git/hooks itrust/www
+          - cd itrust/itrust.git && git init --bare
+          - touch itrust/itrust.git/hooks/post-receive
+          - chmod +x itrust/itrust.git/hooks/post-receive
+          - echo 'GIT_WORK_TREE=/home/vagrant/itrust/www git checkout -f' >> itrust/itrust.git/hooks/post-receive
+          - echo 'lsof -ti tcp:8080 | xargs kill > /dev/null 2>&1' >> itrust/itrust.git/hooks/post-receive
+          - echo 'cd ../www' >> itrust/itrust.git/hooks/post-receive
+          - echo 'nohup java -jar iTrust2-10.jar > /dev/null 2>&1 &' >> itrust/itrust.git/hooks/post-receive
         database:
           - sudo apt update
           - sudo apt install -y mysql-server
