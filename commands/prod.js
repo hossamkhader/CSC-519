@@ -110,7 +110,7 @@ class DigitalOceanProvider
 		{
 			"name": dropletName,
 			"region":region,
-			"size":"s-1vcpu-1gb",
+			"size":"s-2vcpu-4gb",
 			"image":imageName,
 			"ssh_keys": sshKeys,
 			"backups":false,
