@@ -2,6 +2,7 @@ const chalk = require('chalk');
 const path = require('path');
 const os = require('os');
 const { exec, execSync } = require('child_process');
+const winston = require('winston');
 
 const got = require('got');
 const http = require('http');
@@ -10,6 +11,8 @@ const httpProxy = require('http-proxy');
 
 let BLUE = "blue";
 let GREEN = "green";
+
+let logger;
 
 class Production
 {
@@ -48,7 +51,7 @@ class Production
          var url = `http://${this.TARGET}:8080/iTrust2`;
          const response = await got(url, {throwHttpErrors: false});
          let status = response.statusCode == 200 ? chalk.green(response.statusCode) : chalk.red(response.statusCode);
-         console.log( chalk`{grey Health check on ${this.TARGET}}: ${status}`);
+         logger.log('info', `{Health check on ${this.TARGET}}: ${status}`);
          if (!response.statusCode == 200) {
             this.failover();
          }
@@ -62,13 +65,22 @@ class Production
 }
 
 function main() {
+   logger = winston.createLogger({    
+      level: 'info',
+      format: winston.format.combine(        
+         winston.format.timestamp(),        
+         winston.format.printf(info => {
+            return `${info.timestamp} ${info.level}: ${info.message}`;        
+         })    
+         ),    
+    transports: [new winston.transports.File({'filename': 'proxy.log'})]
+});
 
    try {
       execSync('lsof -ti tcp:8080 | xargs kill > /dev/null 2>&1');
       
    }
    catch(error) {
-      console.log(error);
    }
 
    console.log(chalk.keyword('pink')('Starting proxy on 0.0.0.0:8080'));

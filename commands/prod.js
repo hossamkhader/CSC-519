@@ -26,9 +26,9 @@ exports.handler = async (argv) => {
   	let client = new DigitalOceanProvider(token);
   
 	droplet_list = [
+		{"name": "database", "role": "database"},
 		{"name": "blue", "role": "web"},
 		{"name": "green", "role": "web"},
-		{"name": "database", "role": "database"},
 		{"name": "proxy", "role": "proxy"}
 	]
 	
@@ -47,8 +47,9 @@ exports.handler = async (argv) => {
 			  dropletAddress = await client.dropletInfo(dropletId);
 			  droplets.push({"id": dropletId, "name": droplet["name"], "address": dropletAddress, "role": droplet["role"]});
 			}
-			fs.writeFileSync("inventory", JSON.stringify(droplets));
+			fs.writeFileSync("inventory", JSON.stringify(droplets, null, 4));
 			console.log(droplets);
+			console.log("SSH comamnd: ssh -i .ssh/private_key <droplet-public-address>");
 		}
   if (target_status == "down") {
 	  data = fs.readFileSync("inventory", "UTF-8");

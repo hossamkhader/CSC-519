@@ -29,7 +29,7 @@ exports.handler = async (argv) => {
     for (droplet of droplets) {
       try {
         await ssh.connect({host: droplet.address.public, username: "root", privateKey: privateKey_path.toString()});
-        await ssh.execCommand("useradd vagrant");
+        await ssh.execCommand("useradd vagrant -s /bin/bash");
         await ssh.execCommand("mkdir -p /home/vagrant/.ssh");
         await ssh.execCommand("cp .ssh/authorized_keys /home/vagrant/.ssh");
         await ssh.execCommand("chown -R vagrant:vagrant /home/vagrant");
