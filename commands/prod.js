@@ -43,7 +43,7 @@ exports.handler = async (argv) => {
 		  var droplets = [];
 		  for (droplet of droplet_list) {
 			  var dropletId = await client.createDroplet(droplet["name"], "nyc1", "ubuntu-20-04-x64", [key_id]);
-			  await sleep(2000);
+			  await sleep(5000);
 			  dropletAddress = await client.dropletInfo(dropletId);
 			  droplets.push({"id": dropletId, "name": droplet["name"], "address": dropletAddress, "role": droplet["role"]});
 			}
