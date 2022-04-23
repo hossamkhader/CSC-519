@@ -24,7 +24,8 @@ exports.handler = async (argv) => {
   
     const ssh = new NodeSSH();
     var privateKey_path = path.join(path.dirname(require.main.filename), ".ssh/private_key");
-    var app_archive_path = path.join(path.dirname(require.main.filename), "tmp/iTrust2-10.jar");
+    var app_jar_archive_path = path.join(path.dirname(require.main.filename), "tmp/iTrust2-10.jar");
+    var app_war_archive_path = path.join(path.dirname(require.main.filename), "tmp/iTrust2-10.war");
     var service_ip;
     for (droplet of droplets) {
       try {
@@ -47,7 +48,8 @@ exports.handler = async (argv) => {
       }
       if (role == "web") {
         await ssh.execCommand("mkdir -p itrust/www");
-        await ssh.putFile(app_archive_path.toString(), "itrust/www/iTrust2-10.jar");
+        await ssh.putFile(app_jar_archive_path.toString(), "itrust/www/iTrust2-10.jar");
+        await ssh.putFile(app_war_archive_path.toString(), "itrust/www/iTrust2-10.war");
       }
       if (role == "proxy") {
         await ssh.putDirectory("deployment", "deployment");

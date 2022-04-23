@@ -104,9 +104,13 @@ jobs:
       roles:
         web:
           - sudo apt update
-          - sudo apt install -y openjdk-11-jre tomcat9 git mysql-client net-tools
+          - sudo apt install -y openjdk-11-jre tomcat9 tomcat9-admin git mysql-client net-tools
           - sudo ufw allow 8080/tcp
+          - sudo sed -i '44 i <user username="tomcat" password="tomcat" roles="manager-gui,manager-script"/>' /etc/tomcat9/tomcat-users.xml
+          - sudo sed -i '44 i <role rolename="manager-gui"/>' /etc/tomcat9/tomcat-users.xml
+          - sudo sed -i '44 i <role rolename="manager-script"/>' /etc/tomcat9/tomcat-users.xml
           - sudo systemctl stop tomcat9
+          - curl -u tomcat:tomcat "http://localhost:8080/manager/text/deploy?war=file:/home/vagrant/itrust/www/iTrust2-10.jar"
           - lsof -ti tcp:8080 | xargs kill > /dev/null 2>&1
           - nohup java -jar itrust/www/iTrust2-10.jar > /dev/null 2>&1 &
           - rm -rf itrust/itrust.git
@@ -117,6 +121,8 @@ jobs:
           - echo 'GIT_WORK_TREE=/home/vagrant/itrust/www git checkout -f' >> itrust/itrust.git/hooks/post-receive
           - echo 'lsof -ti tcp:8080 | xargs kill > /dev/null 2>&1' >> itrust/itrust.git/hooks/post-receive
           - echo 'cd ../www' >> itrust/itrust.git/hooks/post-receive
+          - echo 'curl -u tomcat:tomcat "http://localhost:8080/manager/text/undeploy?path=/iTrust2-10"' >> itrust/itrust.git/hooks/post-receive
+          - echo 'curl -u tomcat:tomcat "http://localhost:8080/manager/text/deploy?war=file:/home/vagrant/itrust/www/iTrust2-10.jar"' >> itrust/itrust.git/hooks/post-receive
           - echo 'nohup java -jar iTrust2-10.jar > /dev/null 2>&1 &' >> itrust/itrust.git/hooks/post-receive
         database:
           - sudo apt update
