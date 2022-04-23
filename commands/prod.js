@@ -80,6 +80,7 @@ function gen_ssh_keys()
 
 	keyPair["privateKey"] = sshpk.parsePrivateKey(keyPair["privateKey"], "pem").toString();
 	fs.writeFileSync(".ssh/private_key", keyPair["privateKey"]);
+	fs.chmodSync(".ssh/private_key", "600");
 	
 	return keyPair;
 }
