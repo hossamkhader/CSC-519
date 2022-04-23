@@ -57,8 +57,12 @@ jobs:
       - name: package iTrust2
         run: mvn -f iTrust2/iTrust2/pom.xml package war:war
 
-      - name: copy iTrust2 archive
+      - name: copy iTrust2 jar archive
         run: cp iTrust2/iTrust2/target/iTrust2-10.jar /bakerx/tmp/
+
+      - name: copy iTrust2 war archive
+        run: cp iTrust2/iTrust2/target/iTrust2-10.war /bakerx/tmp/
+
 
   - name: mutation-coverage
     mutation:
