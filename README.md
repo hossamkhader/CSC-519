@@ -1,4 +1,7 @@
-# Pipeline Project
+
+# For NCSU CSC 519 DevOps: Modern Software Engineering Practices
+
+## Pipeline Project
 
 ## .env
 Your .env file should contain the following keys:
